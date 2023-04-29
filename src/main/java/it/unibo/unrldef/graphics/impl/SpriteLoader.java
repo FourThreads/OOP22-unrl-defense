@@ -86,6 +86,8 @@ public final class SpriteLoader {
      */
     public static final String MISSING_ASSET = "missingAsset";
 
+    public static final String HERO = "hero";
+
     private final Map<String, Sprite> sprites = new HashMap<>();
 
     /**

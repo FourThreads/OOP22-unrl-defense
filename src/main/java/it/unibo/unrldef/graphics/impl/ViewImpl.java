@@ -78,7 +78,7 @@ public final class ViewImpl implements View {
     public void initGame() {
         this.frame.getContentPane().remove(this.menuPanel);
 
-        this.buttonPanel.add(this.createExitButton());
+        //this.buttonPanel.add(this.createExitButton());
         this.buttonPanel.add(this.addPlayerName());
         this.frame.getContentPane().add(gamePanel, BorderLayout.CENTER);
         this.frame.getContentPane().add(this.buttonPanel, BorderLayout.EAST);

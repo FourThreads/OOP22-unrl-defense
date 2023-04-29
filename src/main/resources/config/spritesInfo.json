@@ -83,6 +83,12 @@
             "fileName": "missingAsset.png",
             "width": 10,
             "height": 10
+        },
+        {
+            "name": "hero",
+            "fileName": "hero.png",
+            "width": 4,
+            "height": 5
         }
     ]
 }
