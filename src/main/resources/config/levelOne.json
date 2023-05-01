@@ -120,6 +120,7 @@
     ],
     "availableSpells": ["fireBall", "snowStorm"],
     "availableTowers": ["hunter", "cannon"],
+    "availableHeros": ["cesare"],
     "towerBuildingSpaces": [
         {
             "x": 28,

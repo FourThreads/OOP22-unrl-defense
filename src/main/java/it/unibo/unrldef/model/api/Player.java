@@ -9,6 +9,7 @@ import it.unibo.unrldef.common.Position;
  * be used.
  * 
  * @author tommaso.severi2@studio.unibo.it
+ * @author tommaso.ceredi@studio.unibo.it
  */
 public interface Player {
     /**
@@ -45,6 +46,8 @@ public interface Player {
      * @param spells a set of spells
      */
     void setSpells(Set<Spell> spells);
+
+    void setHero(Set<Hero> hero);
 
     /**
      * Places a new tower on the world map if the player has enough money.

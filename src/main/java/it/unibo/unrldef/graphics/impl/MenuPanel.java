@@ -98,6 +98,9 @@ public final class MenuPanel extends JPanel {
         this.startButton.addActionListener(e -> {
             if (this.nameField.getText().length() > 0) {
                 this.inputHandler.addInput(new InputImpl(InputType.START_GAME, this.nameField.getText()));
+            } else {
+                // ! TO FIX
+                this.inputHandler.addInput(new InputImpl(InputType.START_GAME, "Player1234"));
             }
         });
         exitButton = new JButton("Exit");
@@ -130,7 +133,8 @@ public final class MenuPanel extends JPanel {
         this.exitButton.setBounds((int) ((DEFAULT_WIDTH / 2 - CENTER) * xScale),
                 (int) ((DEFAULT_HEIGHT / 2 + CENTER) * yScale),
                 (int) (BUTTON_WIDTH * xScale), (int) (BUTTON_HEIGHT * yScale));
-        if (this.nameField.getText().length() > 0) {
+        // ! TO FIX
+        if (this.nameField.getText().length() >= 0) {
             this.startButton.setEnabled(true);
         } else {
             this.startButton.setEnabled(false);

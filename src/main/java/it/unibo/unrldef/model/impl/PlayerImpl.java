@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import it.unibo.unrldef.common.Position;
+import it.unibo.unrldef.model.api.Hero;
 import it.unibo.unrldef.model.api.Player;
 import it.unibo.unrldef.model.api.Spell;
 import it.unibo.unrldef.model.api.World;
@@ -15,12 +16,14 @@ import it.unibo.unrldef.model.api.World;
  * The main player in a tower defense game.
  * 
  * @author tommaso.severi2@studio.unibo.it
+ * @author tommaso.ceredi@studio.unibo.it
  */
 public final class PlayerImpl implements Player {
 
     private World currentWorld;
     private String name;
     private final Map<String, Spell> spells;
+    private final Map<String, Hero> heros;
 
     /**
      * Creates a new player.
@@ -29,6 +32,7 @@ public final class PlayerImpl implements Player {
         this.currentWorld = null;
         this.name = "";
         this.spells = new HashMap<>();
+        this.heros = new HashMap<>();
     }
 
     @Override
@@ -89,4 +93,9 @@ public final class PlayerImpl implements Player {
     public boolean spawnHero(Position pos, String name) {
         return this.getGameWorld().trySpawnHero(pos, name);
     }
+
+    public void setHero(Set<Hero> hero) {
+        hero.forEach(e -> this.heros.put(e.getName(), e));
+    }
+
 }

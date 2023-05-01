@@ -23,6 +23,7 @@ import it.unibo.unrldef.input.api.InputHandler;
  * 
  * @author danilo.maglia@studio.unibo.it
  * @author francesco.buda3@studio.unibo.it
+ * @author tommaso.ceredi@studio.unibo.it
  */
 public final class SpriteLoader {
     /**
@@ -86,7 +87,7 @@ public final class SpriteLoader {
      */
     public static final String MISSING_ASSET = "missingAsset";
 
-    public static final String HERO = "hero";
+    public static final String HERO = "cesare";
 
     private final Map<String, Sprite> sprites = new HashMap<>();
 

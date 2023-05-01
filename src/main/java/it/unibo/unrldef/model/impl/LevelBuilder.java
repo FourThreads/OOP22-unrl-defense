@@ -2,6 +2,7 @@ package it.unibo.unrldef.model.impl;
 
 import it.unibo.unrldef.common.Position;
 import it.unibo.unrldef.model.api.Enemy;
+import it.unibo.unrldef.model.api.Hero;
 import it.unibo.unrldef.model.api.Player;
 import it.unibo.unrldef.model.api.Spell;
 import it.unibo.unrldef.model.api.Tower;
@@ -27,6 +28,7 @@ import org.json.simple.parser.JSONParser;
  * Class that builds the levels of the game.
  * 
  * @author francesco.buda3@studio.unibo.it
+ * @author tommaso.ceredi@studio.unibo.it
  *
  */
 public final class LevelBuilder {
@@ -71,14 +73,11 @@ public final class LevelBuilder {
         }
         final WorldImpl.Builder worldBuilder = this.loadBuilderFromJson(json);
         this.loadPathFromJson(json, worldBuilder);
-        // loading waves
         this.loadWavesFromJson(json, worldBuilder);
-        //loading available spells into the player
         this.loadAvailableSpells(json);
-        // loading available towers
         this.loadAvailableTowers(json, worldBuilder);
-        // loading tower building spaces
         this.loadTowerBuildingSpacesFromJson(json, worldBuilder);
+        this.loadAvailableHeros(json);
 
         final World world = worldBuilder.build();
         for (final Spell spell : this.player.getSpells()) {
@@ -195,5 +194,23 @@ public final class LevelBuilder {
             }
             worldBuilder.addAvailableTower(towerName, towerType);
         }
+    }
+
+    private void loadAvailableHeros(final JSONObject json) {
+        final JSONArray availableHeros = (JSONArray) json.get("availableHeros");
+        final Set<Hero> heros = new HashSet<>();
+        for (final Object hero : availableHeros) {
+            final String heroName = (String) hero;
+            Hero heroType = null;
+            switch (heroName) {
+                case "cesare":
+                    heroType = new Cesare();
+                    break;
+                default:
+                    break;
+            }
+            heros.add(heroType);
+        }
+        this.player.setHero(heros);
     }
 }

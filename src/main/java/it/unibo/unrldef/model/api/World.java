@@ -9,6 +9,7 @@ import it.unibo.unrldef.common.Position;
  * the world of a tower defense game.
  * 
  * @author francesco.buda3@studio.unibo.it
+ * @author tommaso.ceredi@studio.unibo.it
  * 
  */
 public interface World {

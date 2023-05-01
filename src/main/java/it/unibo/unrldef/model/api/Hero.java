@@ -7,4 +7,9 @@ public interface Hero extends Entity {
      */
     int getCost();
 
+    /**
+     * @return a copy of the hero
+     */
+    Hero copy();
+
 }

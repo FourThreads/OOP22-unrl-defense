@@ -19,6 +19,7 @@ import it.unibo.unrldef.common.Position;
 import it.unibo.unrldef.model.api.Bank;
 import it.unibo.unrldef.model.api.Enemy;
 import it.unibo.unrldef.model.api.Entity;
+import it.unibo.unrldef.model.api.Hero;
 import it.unibo.unrldef.model.api.Horde;
 import it.unibo.unrldef.model.api.Integrity;
 import it.unibo.unrldef.model.api.Path;
@@ -30,6 +31,9 @@ import it.unibo.unrldef.model.api.Path.Direction;
 
 /**
  * The world of the game Unreal Defense.
+ * 
+ * @author tommaso.ceredi@studio.unibo.it
+ * @author francesco.buda3@studio.unibo.it
  */
 public final class WorldImpl implements World {
 
@@ -46,7 +50,9 @@ public final class WorldImpl implements World {
     private final List<Wave> waves;
     private int waveCounter;
     private final List<Tower> placedTowers;
+    private final List<Hero> placedHeroes;
     private final Map<String, Tower> availableTowers;
+    private final Map<String, Hero> availableHeroes;
     private final Set<Position> availablePositions;
     private final List<Enemy> livingEnemies;
     private final Queue<Enemy> spawningQueue;
@@ -56,7 +62,7 @@ public final class WorldImpl implements World {
 
     private WorldImpl(final String name, final Player player, final Integrity castleIntegrity, final Path path,
             final List<Wave> waves,
-            final Map<String, Tower> availableTowers, final Set<Position> validPositions, final Bank bank) {
+            final Map<String, Tower> availableTowers, final Set<Position> validPositions, final Bank bank, final Map<String, Hero> availableHeroes) {
         this.name = name;
         this.player = player;
         this.castleIntegrity = castleIntegrity;
@@ -71,6 +77,8 @@ public final class WorldImpl implements World {
         this.timeToNextSpawn = 0;
         this.waveCounter = 0;
         this.bank = bank;
+        this.placedHeroes = new ArrayList<>();
+        this.availableHeroes = availableHeroes;
 
     }
 
@@ -213,6 +221,7 @@ public final class WorldImpl implements World {
 
     @Override
     public Boolean tryBuildTower(final Position pos, final String towerName) {
+        System.out.println("Available towers: " + this.availableTowers);
         if (this.availablePositions.contains(pos)) {
             final Tower newTower = this.availableTowers.get(towerName).copy();
             if (this.bank.trySpend(newTower.getCost())) {
@@ -220,8 +229,23 @@ public final class WorldImpl implements World {
                 this.placedTowers.add(newTower);
                 newTower.setParentWorld(this);
                 newTower.setPosition(pos.getX(), pos.getY());
+                System.out.println("Tower list: " + this.placedTowers);
                 return true;
             }
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean trySpawnHero(Position pos, String heroName) {
+        if (this.placedHeroes.size() < 1) {
+            System.out.println("Hero name: " + heroName);
+            final Hero newHero = this.availableHeroes.get(heroName).copy();
+            this.placedHeroes.add(newHero);
+            newHero.setParentWorld(this);
+            newHero.setPosition(pos.getX(), pos.getY());
+            System.out.println("Hero list: " + this.placedHeroes);
+            return true;
         }
         return false;
     }
@@ -488,8 +512,4 @@ public final class WorldImpl implements World {
         }
     }
 
-    @Override
-    public Boolean trySpawnHero(Position pos, String heroName) {
-        return true;
-    }
 }

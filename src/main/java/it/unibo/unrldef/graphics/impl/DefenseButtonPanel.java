@@ -35,6 +35,7 @@ import java.util.Set;
  * 
  * @author tommaso.severi2@studio.unibo.it
  * @author danilo.maglia@studio.unibo.it
+ * @author tommaso.ceredi@studio.unibo.it
  */
 public final class DefenseButtonPanel extends JPanel {
 
@@ -83,8 +84,8 @@ public final class DefenseButtonPanel extends JPanel {
             snowStorm = this.placeDefenseButton(GamePanel.ViewState.SPELL_SELECTED, SnowStorm.NAME, gamePanel,
                     new ImageIcon(
                             ImageIO.read(this.getClass().getResourceAsStream(ASSETS_FOLDER + "snowstormIcon.png"))));
-            hero = this.placeDefenseButton(GamePanel.ViewState.HERO_SELECTED, "hero", gamePanel, new ImageIcon(
-                    ImageIO.read(this.getClass().getResourceAsStream(ASSETS_FOLDER + "heroIcon.png"))));
+            hero = this.placeDefenseButton(GamePanel.ViewState.HERO_SELECTED, "cesare", gamePanel, new ImageIcon(
+                    ImageIO.read(this.getClass().getResourceAsStream(ASSETS_FOLDER + "cesareIcon.png"))));
 
         } catch (IOException e) {
             new ErrorDialog("Error reading icon's images", inputHandler).showDialog();

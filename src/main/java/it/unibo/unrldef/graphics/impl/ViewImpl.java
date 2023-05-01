@@ -34,6 +34,7 @@ import java.util.Set;
  * 
  * @author danilo.maglia@studio.unibo.it
  * @author tommaso.severi2@studio.unibo.it
+ * @author tommaso.ceredi@studio.unibo.it
  */
 public final class ViewImpl implements View {
 

@@ -34,11 +34,14 @@ import it.unibo.unrldef.model.api.Spell;
 import it.unibo.unrldef.model.api.Tower;
 import it.unibo.unrldef.model.api.World;
 import it.unibo.unrldef.model.impl.Cannon;
+import it.unibo.unrldef.model.impl.Cesare;
 import it.unibo.unrldef.model.impl.FireBall;
 import it.unibo.unrldef.model.impl.Goblin;
 import it.unibo.unrldef.model.impl.Hunter;
 import it.unibo.unrldef.model.impl.Orc;
 import it.unibo.unrldef.model.impl.SnowStorm;
+import it.unibo.unrldef.model.api.Hero;
+import it.unibo.unrldef.model.impl.HeroImpl;
 
 /**
  * 
@@ -92,6 +95,7 @@ public final class GamePanel extends JPanel {
     private final transient Sprite goblin;
     private final transient Sprite fireball;
     private final transient Sprite snowStorm;
+    private final transient Sprite hero;
     private final transient Sprite map;
     private final transient Sprite cannon;
     private final transient Sprite hunter;
@@ -133,6 +137,8 @@ public final class GamePanel extends JPanel {
         this.sprites.add(this.fireball);
         this.snowStorm = this.spriteLoader.getSprite(SpriteLoader.SNOW_STORM);
         this.sprites.add(this.snowStorm);
+        this.hero = this.spriteLoader.getSprite(SpriteLoader.HERO);
+        this.sprites.add(this.hero);
         this.cannon = this.spriteLoader.getSprite(SpriteLoader.CANNON);
         this.sprites.add(this.cannon);
         this.hunter = this.spriteLoader.getSprite(SpriteLoader.HUNTER);
@@ -203,7 +209,11 @@ public final class GamePanel extends JPanel {
                                 });
                         break;
                     case SPELL_SELECTED:
-                    inputHandler.addInput(new InputImpl(InputType.PLACE_SPELL, pModel,
+                        inputHandler.addInput(new InputImpl(InputType.PLACE_SPELL, pModel,
+                                selectedEntity));
+                        break;
+                    case HERO_SELECTED:
+                        inputHandler.addInput(new InputImpl(InputType.PLACE_HERO, pModel,
                                 selectedEntity));
                         break;
                     default:
@@ -285,6 +295,9 @@ public final class GamePanel extends JPanel {
             case SPELL_SELECTED:
                 this.renderSpellMouseRange(graphic);
                 break;
+            case HERO_SELECTED:
+                this.renderHeroMouseRange(graphic);
+                break;
             default:
                 break;
         }
@@ -362,7 +375,28 @@ public final class GamePanel extends JPanel {
         }
     }
 
+    private void renderHeroMouseRange(final Graphics2D graphic) {
+        if (this.mousePosition.getY() < this.getHeight() - 2 && this.mousePosition.getX() < this.getWidth() - 2
+                && this.mousePosition.getY() > 0 && this.mousePosition.getX() > 0) {
+            final double radius = Cesare.RADIUS;
+            final Position mPos = this.fromRealPositionToPosition(this.mousePosition);
+            final Position realPos = this.fromPositionToRealPosition(
+                    this.hero.getApplicationPoint(mPos));
+            graphic.drawImage(this.hero.getScaledSprite(), (int) realPos.getX(),
+                    (int) realPos.getY(), null);
+            graphic.setColor(Color.GRAY);
+            final Position realPL = fromPositionToRealPosition(
+                    new Position(mPos.getX() - radius, mPos.getY() - radius));
+            final Position realPR = fromPositionToRealPosition(
+                    new Position(mPos.getX() + radius, mPos.getY() + radius));
+            graphic.drawOval((int) realPL.getX(), (int) realPL.getY(),
+                    (int) (realPR.getX() - realPL.getX()), (int) (realPR.getY() - realPL.getY()));
+            graphic.setColor(Color.BLACK);
+        }
+    }
+
     private void renderEntity(final Graphics2D graphic, final Entity entity) {
+        //System.out.println("Rendering entity: " + entity);
         if (entity instanceof Enemy) {
             this.renderEnemy(graphic, entity);
         } else if (entity instanceof Spell) {
