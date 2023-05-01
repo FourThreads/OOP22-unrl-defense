@@ -84,4 +84,9 @@ public final class PlayerImpl implements Player {
                 .filter(Spell::isActive)
                 .toList());
     }
+
+    @Override
+    public boolean spawnHero(Position pos, String name) {
+        return this.getGameWorld().trySpawnHero(pos, name);
+    }
 }

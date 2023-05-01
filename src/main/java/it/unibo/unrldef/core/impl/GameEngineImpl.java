@@ -155,6 +155,9 @@ public final class GameEngineImpl implements GameEngine {
                 case PLACE_SPELL:
                     this.player.throwSpell(position.get(), name.get());
                     break;
+                case PLACE_HERO:
+                    this.player.spawnHero(position.get(), name.get());
+                    break;
                 case START_GAME:
                     this.initGame(name.get());
                     break;

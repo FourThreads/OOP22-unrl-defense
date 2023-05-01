@@ -487,4 +487,9 @@ public final class WorldImpl implements World {
             return ret;
         }
     }
+
+    @Override
+    public Boolean trySpawnHero(Position pos, String heroName) {
+        return true;
+    }
 }

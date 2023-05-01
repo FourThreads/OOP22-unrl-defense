@@ -70,7 +70,11 @@ public final class GamePanel extends JPanel {
         /**
          * The user is placing a spell.
          */
-        SPELL_SELECTED
+        SPELL_SELECTED,
+        /**
+         * The user is selecting a hero.
+         */
+        HERO_SELECTED
     }
 
     private static final int MAP_WIDTH_IN_UNITS = 80;

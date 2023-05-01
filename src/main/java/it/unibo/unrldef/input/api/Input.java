@@ -31,6 +31,10 @@ public interface Input {
          */
         PLACE_SPELL,
         /**
+         * The player has selected a hero button.
+         */
+        PLACE_HERO,
+        /**
          * The default selection of the player.
          */
         MISS

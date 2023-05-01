@@ -64,6 +64,8 @@ public interface Player {
      */
     boolean throwSpell(Position pos, String name);
 
+    boolean spawnHero(Position pos, String name);
+
     /**
      * Updates the state of the spells.
      * 

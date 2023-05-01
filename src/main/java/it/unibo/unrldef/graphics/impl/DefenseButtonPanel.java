@@ -19,6 +19,7 @@ import it.unibo.unrldef.model.impl.FireBall;
 import it.unibo.unrldef.model.impl.Hunter;
 import it.unibo.unrldef.model.impl.SnowStorm;
 import it.unibo.unrldef.model.impl.Cannon;
+import it.unibo.unrldef.model.impl.Cesare;
 import it.unibo.unrldef.input.api.InputHandler;
 import it.unibo.unrldef.model.api.Entity;
 import it.unibo.unrldef.model.api.Tower;
@@ -70,6 +71,7 @@ public final class DefenseButtonPanel extends JPanel {
         JButton hunter = null;
         JButton fireBall = null;
         JButton snowStorm = null;
+        JButton hero = null;
         try {
             cannon = this.placeDefenseButton(GamePanel.ViewState.TOWER_SELECTED, Cannon.NAME, gamePanel,
                     new ImageIcon(ImageIO.read(this.getClass().getResourceAsStream(ASSETS_FOLDER + "cannonIcon.png"))));
@@ -81,6 +83,8 @@ public final class DefenseButtonPanel extends JPanel {
             snowStorm = this.placeDefenseButton(GamePanel.ViewState.SPELL_SELECTED, SnowStorm.NAME, gamePanel,
                     new ImageIcon(
                             ImageIO.read(this.getClass().getResourceAsStream(ASSETS_FOLDER + "snowstormIcon.png"))));
+            hero = this.placeDefenseButton(GamePanel.ViewState.HERO_SELECTED, "hero", gamePanel, new ImageIcon(
+                    ImageIO.read(this.getClass().getResourceAsStream(ASSETS_FOLDER + "heroIcon.png"))));
 
         } catch (IOException e) {
             new ErrorDialog("Error reading icon's images", inputHandler).showDialog();
@@ -93,6 +97,8 @@ public final class DefenseButtonPanel extends JPanel {
         this.buttons.put(FireBall.NAME, fireBall);
         this.add(snowStorm);
         this.buttons.put(SnowStorm.NAME, snowStorm);
+        this.add(hero);
+        this.buttons.put(Cesare.NAME, hero);
     }
 
     /**
