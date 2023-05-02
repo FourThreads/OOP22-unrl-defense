@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author tommaso.severi2@studio.unibo.it
  * @author tommaso.ceredi@studio.unibo.it
  */
-public abstract class DefenseEntity extends EntityImpl {
+public abstract class DefenseEntity_ extends EntityImpl {
 
     private final double radius;
     private final double damage;
@@ -24,7 +24,7 @@ public abstract class DefenseEntity extends EntityImpl {
      * @param damage     the damage it inflicts to an enemy
      * @param attackRate the rate at which it deals damage
      */
-    public DefenseEntity(final String name, final double radius,
+    public DefenseEntity_(final String name, final double radius,
             final double damage, final long attackRate) {
         super(name);
         this.radius = Objects.requireNonNull(radius);

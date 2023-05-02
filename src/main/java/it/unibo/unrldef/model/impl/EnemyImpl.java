@@ -185,4 +185,8 @@ public class EnemyImpl extends EntityImpl implements Enemy {
         return enemy;
     }
 
+    @Override
+    protected void attack() {}
+    
+    
 }

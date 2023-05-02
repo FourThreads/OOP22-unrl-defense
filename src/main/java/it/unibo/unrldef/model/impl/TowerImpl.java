@@ -11,7 +11,7 @@ import it.unibo.unrldef.model.api.Tower;
  * 
  * @author tommaso.ceredi@studio.unibo.it
  */
-public abstract class TowerImpl extends DefenseEntity implements Tower {
+public abstract class TowerImpl extends EntityImpl implements Tower {
 
     private final int cost;
     private Optional<Enemy> target = Optional.empty();

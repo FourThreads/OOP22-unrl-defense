@@ -11,7 +11,7 @@ import it.unibo.unrldef.model.api.Spell;
  * 
  * @author tommaso.severi2@studio.unibo.it
  */
-public abstract class SpellImpl extends DefenseEntity implements Spell {
+public abstract class SpellImpl extends EntityImpl implements Spell {
 
     private boolean active;
     private final long lingeringEffectTime;
@@ -71,6 +71,7 @@ public abstract class SpellImpl extends DefenseEntity implements Spell {
 
     @Override
     public final boolean isReady() {
+        //System.out.println("time since last action: " + this.getTimeSinceLastAction() + " attack rate: " + this.getAttackRate());
         return this.getTimeSinceLastAction() >= this.getAttackRate() && !this.isActive();
     }
 

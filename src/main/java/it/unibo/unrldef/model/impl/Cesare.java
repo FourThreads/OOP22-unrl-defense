@@ -5,14 +5,14 @@ import it.unibo.unrldef.model.api.Hero;
 
 public final class Cesare extends HeroImpl {
 
-    private static final int COST = 100;
     public static final double RADIUS = 10;
     private static final long ATTACK_RATE = 1000;
     private static final double DAMAGE = 10;
     public static final String NAME = "cesare";
+    public static final double HEALTH = 100;
 
     public Cesare() {
-        super(NAME, RADIUS, DAMAGE, ATTACK_RATE, COST);
+        super(NAME, RADIUS, DAMAGE, ATTACK_RATE, HEALTH);
     }
 
     @Override
