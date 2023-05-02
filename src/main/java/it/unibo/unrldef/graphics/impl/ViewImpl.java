@@ -148,6 +148,7 @@ public final class ViewImpl implements View {
     private void updateHUD() {
         final Set<Entity> buttonsEntities = new HashSet<>(this.world.getAvailableTowers());
         buttonsEntities.addAll(this.player.getSpells());
+        buttonsEntities.addAll(this.player.getHeros());
         this.buttonPanel.update(buttonsEntities);
     }
 

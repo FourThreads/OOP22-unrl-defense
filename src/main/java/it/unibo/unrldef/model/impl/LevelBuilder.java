@@ -211,6 +211,6 @@ public final class LevelBuilder {
             }
             heros.add(heroType);
         }
-        this.player.setHero(heros);
+        this.player.setHeros(heros);
     }
 }

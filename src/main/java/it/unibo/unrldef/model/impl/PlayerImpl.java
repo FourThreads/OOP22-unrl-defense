@@ -89,12 +89,29 @@ public final class PlayerImpl implements Player {
                 .toList());
     }
 
-    @Override
-    public boolean spawnHero(Position pos, String name) {
-        return this.getGameWorld().trySpawnHero(pos, name);
+    public Set<Hero> getActiveHeros() {
+        return new HashSet<Hero>(this.getHeros().stream()
+                .filter(Hero::isActive)
+                .toList());
     }
 
-    public void setHero(Set<Hero> hero) {
+    @Override
+    public boolean spawnHero(Position pos, String name) {
+        return this.heros.containsKey(name) && this.heros.get(name).ifPossibleActivate(pos);
+    }
+
+    @Override
+    public Set<Hero> getHeros() {
+        return new HashSet<Hero>(this.heros.values());
+    }
+
+    @Override
+    public void updateHeroState(long elapsed) {
+        this.getHeros().forEach(hero -> hero.updateState(elapsed));
+    }
+
+
+    public void setHeros(Set<Hero> hero) {
         hero.forEach(e -> this.heros.put(e.getName(), e));
     }
 

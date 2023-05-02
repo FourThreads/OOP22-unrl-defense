@@ -22,6 +22,7 @@ import it.unibo.unrldef.model.impl.Cannon;
 import it.unibo.unrldef.model.impl.Cesare;
 import it.unibo.unrldef.input.api.InputHandler;
 import it.unibo.unrldef.model.api.Entity;
+import it.unibo.unrldef.model.api.Hero;
 import it.unibo.unrldef.model.api.Tower;
 import it.unibo.unrldef.model.api.World;
 import it.unibo.unrldef.model.api.Spell;
@@ -148,7 +149,7 @@ public final class DefenseButtonPanel extends JPanel {
                     default:
                         break;
                 }
-            } else {
+            } else if (entity instanceof Spell) {
                 enableState = ((Spell) entity).isReady();
                 switch (entity.getName()) {
                     case FireBall.NAME:
@@ -160,6 +161,11 @@ public final class DefenseButtonPanel extends JPanel {
                     default:
                         break;
                 }
+            } else if (entity instanceof Hero) {
+                enableState = ((Hero) entity).isReady();
+                respectiveButton = this.buttons.get(Cesare.NAME);
+            } else {
+                enableState = false;
             }
             respectiveButton.setEnabled(enableState);
         }

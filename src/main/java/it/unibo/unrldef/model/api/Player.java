@@ -40,6 +40,8 @@ public interface Player {
      */
     Set<Spell> getSpells();
 
+    Set<Hero> getHeros();
+
     /**
      * Sets the spells that the player can use in game.
      * 
@@ -47,7 +49,7 @@ public interface Player {
      */
     void setSpells(Set<Spell> spells);
 
-    void setHero(Set<Hero> hero);
+    void setHeros(Set<Hero> hero);
 
     /**
      * Places a new tower on the world map if the player has enough money.
@@ -75,4 +77,6 @@ public interface Player {
      * @param elapsed time passed since last update
      */
     void updateSpellState(long elapsed);
+
+    void updateHeroState(long elapsed);
 }

@@ -1,5 +1,7 @@
 package it.unibo.unrldef.model.api;
 
+import it.unibo.unrldef.common.Position;
+
 public interface Hero extends Entity {
     
     /**
@@ -12,4 +14,11 @@ public interface Hero extends Entity {
      */
     Hero copy();
 
+
+    boolean ifPossibleActivate(Position position);
+
+    boolean isActive();
+
+    boolean isReady();
+    
 }

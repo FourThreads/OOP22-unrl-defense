@@ -1,5 +1,6 @@
 package it.unibo.unrldef.model.impl;
 
+import it.unibo.unrldef.common.Position;
 import it.unibo.unrldef.model.api.Hero;
 
 public final class Cesare extends HeroImpl {

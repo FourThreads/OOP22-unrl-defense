@@ -95,7 +95,7 @@ public final class GamePanel extends JPanel {
     private final transient Sprite goblin;
     private final transient Sprite fireball;
     private final transient Sprite snowStorm;
-    private final transient Sprite hero;
+    private final transient Sprite cesare;
     private final transient Sprite map;
     private final transient Sprite cannon;
     private final transient Sprite hunter;
@@ -137,8 +137,8 @@ public final class GamePanel extends JPanel {
         this.sprites.add(this.fireball);
         this.snowStorm = this.spriteLoader.getSprite(SpriteLoader.SNOW_STORM);
         this.sprites.add(this.snowStorm);
-        this.hero = this.spriteLoader.getSprite(SpriteLoader.HERO);
-        this.sprites.add(this.hero);
+        this.cesare = this.spriteLoader.getSprite(SpriteLoader.CESARE);
+        this.sprites.add(this.cesare);
         this.cannon = this.spriteLoader.getSprite(SpriteLoader.CANNON);
         this.sprites.add(this.cannon);
         this.hunter = this.spriteLoader.getSprite(SpriteLoader.HUNTER);
@@ -381,8 +381,8 @@ public final class GamePanel extends JPanel {
             final double radius = Cesare.RADIUS;
             final Position mPos = this.fromRealPositionToPosition(this.mousePosition);
             final Position realPos = this.fromPositionToRealPosition(
-                    this.hero.getApplicationPoint(mPos));
-            graphic.drawImage(this.hero.getScaledSprite(), (int) realPos.getX(),
+                    this.cesare.getApplicationPoint(mPos));
+            graphic.drawImage(this.cesare.getScaledSprite(), (int) realPos.getX(),
                     (int) realPos.getY(), null);
             graphic.setColor(Color.GRAY);
             final Position realPL = fromPositionToRealPosition(
@@ -403,7 +403,23 @@ public final class GamePanel extends JPanel {
             this.renderSpell(graphic, entity);
         } else if (entity instanceof Tower) {
             this.renderTower(graphic, entity);
+        } else if (entity instanceof Hero) {
+            this.renderHero(graphic, entity);
         }
+    }
+
+    private void renderHero(final Graphics2D graphic, final Entity hero) {
+        Sprite heroAsset = null;
+        switch (hero.getName()) {
+            case Cesare.NAME:
+                heroAsset = this.cesare;
+                break;
+            default:
+                heroAsset = this.missingAsset;
+                break;
+        }
+        final Position realPos = this.fromPositionToRealPosition(hero.getPosition().get());
+        graphic.drawImage(heroAsset.getScaledSprite(), (int) realPos.getX(), (int) realPos.getY(), null);
     }
 
     private void renderTower(final Graphics2D graphic, final Entity tower) {

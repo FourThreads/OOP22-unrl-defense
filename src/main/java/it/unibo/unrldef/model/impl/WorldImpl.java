@@ -52,7 +52,6 @@ public final class WorldImpl implements World {
     private final List<Tower> placedTowers;
     private final List<Hero> placedHeroes;
     private final Map<String, Tower> availableTowers;
-    private final Map<String, Hero> availableHeroes;
     private final Set<Position> availablePositions;
     private final List<Enemy> livingEnemies;
     private final Queue<Enemy> spawningQueue;
@@ -62,7 +61,7 @@ public final class WorldImpl implements World {
 
     private WorldImpl(final String name, final Player player, final Integrity castleIntegrity, final Path path,
             final List<Wave> waves,
-            final Map<String, Tower> availableTowers, final Set<Position> validPositions, final Bank bank, final Map<String, Hero> availableHeroes) {
+            final Map<String, Tower> availableTowers, final Set<Position> validPositions, final Bank bank) {
         this.name = name;
         this.player = player;
         this.castleIntegrity = castleIntegrity;
@@ -78,7 +77,6 @@ public final class WorldImpl implements World {
         this.waveCounter = 0;
         this.bank = bank;
         this.placedHeroes = new ArrayList<>();
-        this.availableHeroes = availableHeroes;
 
     }
 
@@ -102,6 +100,7 @@ public final class WorldImpl implements World {
         this.placedTowers.forEach(x -> x.updateState(time));
         // updating player's spells
         this.player.updateSpellState(time);
+        this.player.updateHeroState(time);
         if (timeToNextHorde == 0 && !this.areWavesEnded()) {
             if (this.waves.get(this.waveCounter).isWaveOver()) {
                 this.waveCounter++;
@@ -237,20 +236,6 @@ public final class WorldImpl implements World {
     }
 
     @Override
-    public Boolean trySpawnHero(Position pos, String heroName) {
-        if (this.placedHeroes.size() < 1) {
-            System.out.println("Hero name: " + heroName);
-            final Hero newHero = this.availableHeroes.get(heroName).copy();
-            this.placedHeroes.add(newHero);
-            newHero.setParentWorld(this);
-            newHero.setPosition(pos.getX(), pos.getY());
-            System.out.println("Hero list: " + this.placedHeroes);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public void spawnEnemy(final Enemy enemy, final Position pos) {
         this.livingEnemies.add(enemy);
         enemy.setParentWorld(this);
@@ -259,8 +244,8 @@ public final class WorldImpl implements World {
 
     @Override
     public List<Entity> getSceneEntities() {
-        final List<Entity> ret = new ArrayList<>();
-        this.livingEnemies.sort((a, b) -> {
+        final List<Entity> ret = new ArrayList<>(this.livingEnemies);
+        ret.sort((a, b) -> {
             if (a.getPosition().get().getY() > b.getPosition().get().getY()) {
                 return 1;
             } else if (a.getPosition().get().getY() < b.getPosition().get().getY()) {
@@ -276,8 +261,8 @@ public final class WorldImpl implements World {
             }
         });
         ret.addAll(this.placedTowers);
-        ret.addAll(this.livingEnemies);
         ret.addAll(((PlayerImpl) this.player).getActiveSpells());
+        ret.addAll(((PlayerImpl) this.player).getActiveHeros());
         return ret;
     }
 

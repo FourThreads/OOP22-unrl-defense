@@ -46,8 +46,6 @@ public interface World {
      */
     Boolean tryBuildTower(Position pos, String towerName);
 
-    Boolean trySpawnHero(Position pos, String heroName);
-
     /**
      * 
      * @param enemy the enemy to spawn
