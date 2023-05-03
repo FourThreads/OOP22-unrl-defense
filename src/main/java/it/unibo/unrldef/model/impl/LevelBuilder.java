@@ -83,6 +83,9 @@ public final class LevelBuilder {
         for (final Spell spell : this.player.getSpells()) {
             spell.setParentWorld(world);
         }
+        for (final Hero hero : this.player.getHeros()) {
+            hero.setParentWorld(world);
+        }
         return world;
     }
 

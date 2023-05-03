@@ -23,10 +23,13 @@ public class Goblin extends EnemyImpl {
      */
     public static final double DROP = 30.0;
 
+    public static final double RANGE_ATTACK = 5.0;
+
+    public static final double DAMAGE_ATTACK = 5.0;
     /**
      * Create a new Goblin.
      */
     public Goblin() {
-        super(Goblin.NAME, Goblin.HEALTH, Goblin.SPEED, Goblin.DROP);
+        super(Goblin.NAME, Goblin.HEALTH, Goblin.SPEED, Goblin.DROP, Goblin.RANGE_ATTACK, Goblin.DAMAGE_ATTACK);
     }
 }

@@ -1,5 +1,6 @@
 package it.unibo.unrldef.model.impl;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -37,7 +38,18 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
 
     @Override
     protected void attack() {
-        System.out.println("Hero attack");
+        final List<Enemy> enemiesInRange = this.getParentWorld().sorroundingEnemies(this.getPosition().get(),
+                this.getRadius());
+        if (!enemiesInRange.isEmpty()) {
+            if (this.target.isEmpty() || !enemiesInRange.contains(this.target.get())) {
+                this.target = Optional.of(enemiesInRange.get(0));
+            }
+            this.target.get().reduceHealth(this.getDamage());
+            this.additionAttack(this.target.get());
+            System.out.println("attacked " + this.target.get().getName() + " with " + this.getDamage() + " damage");
+        } else {
+            this.target = Optional.empty();
+        }
     }
 
     @Override
@@ -59,4 +71,6 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     private void activate() {
         this.active = true;
     }
+
+    protected abstract void additionAttack(Enemy target);
 }

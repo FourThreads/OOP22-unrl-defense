@@ -1,6 +1,7 @@
 package it.unibo.unrldef.model.impl;
 
 import it.unibo.unrldef.common.Position;
+import it.unibo.unrldef.model.api.Enemy;
 import it.unibo.unrldef.model.api.Hero;
 
 public final class Cesare extends HeroImpl {
@@ -18,6 +19,11 @@ public final class Cesare extends HeroImpl {
     @Override
     public Hero copy() {
         return new Cesare();
+    }
+
+    @Override
+    protected void additionAttack(Enemy target) {
+        
     }
     
 }

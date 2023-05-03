@@ -2,7 +2,10 @@ package it.unibo.unrldef.model.impl;
 
 import it.unibo.unrldef.common.Pair;
 import it.unibo.unrldef.model.api.Enemy;
+import it.unibo.unrldef.model.api.Hero;
 import it.unibo.unrldef.model.api.Path;
+import it.unibo.unrldef.model.api.World;
+import it.unibo.unrldef.model.api.Player;
 
 /**
  * Implementation of an Enemy in the game Unreal Defense.
@@ -14,8 +17,11 @@ public class EnemyImpl extends EntityImpl implements Enemy {
     private double speed;
     private final double dropAmount;
     private final double defaultSpeed;
+    private final double rangeAttack;
+    private final double damageAttack;
     private int currentDirectionIndex;
     private Pair<Path.Direction, Double> currentDirection;
+    private boolean enemyAttack;
 
     /**
      * Create a new enemy.
@@ -29,7 +35,7 @@ public class EnemyImpl extends EntityImpl implements Enemy {
      * @param dropAmount
      *                       the amount of money that the enemy drops when it dies
      */
-    public EnemyImpl(final String name, final double startingHealth, final double speed, final double dropAmount) {
+    public EnemyImpl(final String name, final double startingHealth, final double speed, final double dropAmount, final double rangeAttack, final double damageAttack) {
         super(name);
         this.health = startingHealth;
         this.speed = speed;
@@ -37,7 +43,8 @@ public class EnemyImpl extends EntityImpl implements Enemy {
         this.defaultSpeed = speed;
         this.currentDirectionIndex = 0;
         this.currentDirection = new Pair<>(Path.Direction.DOWN, 0.0);
-
+        this.rangeAttack = rangeAttack;
+        this.damageAttack = damageAttack;
     }
 
     /**
@@ -126,11 +133,28 @@ public class EnemyImpl extends EntityImpl implements Enemy {
     @Override
     public void updateState(final long time) {
         if (!this.hasReachedEndOfPath()) {
+            if (this.getParentWorld().getSceneEntities().stream().filter(e -> e instanceof Hero).count() > 0) {
+                this.getParentWorld().getSceneEntities().stream().filter(e -> e instanceof Hero).forEach(e -> {
+                    final double distance = Math.sqrt(Math.pow(this.getPosition().get().getX() - e.getPosition().get().getX(), 2)
+                            + Math.pow(this.getPosition().get().getY() - e.getPosition().get().getY(), 2));
+                    //System.out.println("distance: " + distance);
+                    if (distance <= this.rangeAttack) {
+                        this.enemyAttack = true;
+                    }
+                });
+            } else {
+                this.enemyAttack = false;
+            }
+
             if (this.currentDirection.getSecond() <= 0) {
                 this.currentDirection = this.getParentWorld().getPath().getDirection(this.currentDirectionIndex);
                 this.currentDirectionIndex++;
             }
-            this.move(time);
+            if (this.enemyAttack) {
+                this.checkAttack();
+            } else {
+                this.move(time);
+            }
         }
 
     }
@@ -176,7 +200,7 @@ public class EnemyImpl extends EntityImpl implements Enemy {
      */
     @Override
     public Enemy copy() {
-        final EnemyImpl enemy = new EnemyImpl(this.getName(), this.health, this.speed, this.dropAmount);
+        final EnemyImpl enemy = new EnemyImpl(this.getName(), this.health, this.speed, this.dropAmount, this.rangeAttack, this.damageAttack);
         if (this.getPosition().isPresent()) {
             enemy.setPosition(this.getPosition().get().getX(), this.getPosition().get().getY());
         }
@@ -186,7 +210,9 @@ public class EnemyImpl extends EntityImpl implements Enemy {
     }
 
     @Override
-    protected void attack() {}
+    protected void attack() {
+        System.out.println("Enemy attack");
+    }
     
     
 }

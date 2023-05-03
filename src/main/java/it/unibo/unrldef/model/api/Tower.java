@@ -19,9 +19,6 @@ public interface Tower extends Entity {
      */
     Tower copy();
 
-    @Override
-    void setParentWorld(World world);
-
     /**
      * @return the Enemy that the tower is attacking
      */
