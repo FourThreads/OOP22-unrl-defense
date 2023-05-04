@@ -410,16 +410,31 @@ public final class GamePanel extends JPanel {
 
     private void renderHero(final Graphics2D graphic, final Entity hero) {
         Sprite heroAsset = null;
+        double startingHealth = 0;
         switch (hero.getName()) {
             case Cesare.NAME:
                 heroAsset = this.cesare;
+                startingHealth = Cesare.HEALTH;
                 break;
             default:
                 heroAsset = this.missingAsset;
                 break;
         }
+
+        // barra della vita sopra l'eroe, deve essere di colore verde e quando la vita diminuisce diventa rossa
+        final double healthPercentage = ((Hero) hero).getHealth() / startingHealth;
+        final int width = heroAsset.getScaledDimension().getFirst();
         final Position realPos = this.fromPositionToRealPosition(hero.getPosition().get());
-        graphic.drawImage(heroAsset.getScaledSprite(), (int) realPos.getX(), (int) realPos.getY(), null);
+        final int x = (int) realPos.getX();
+        final int y = (int) realPos.getY();
+        final int healthBarY = (int) (y - 1 * yScale);
+        final int barHeight = 5;
+        graphic.setColor(Color.RED);
+        graphic.fillRect(x, healthBarY, width, barHeight);
+        graphic.setColor(Color.GREEN);
+        graphic.fillRect(x, healthBarY, (int) (width * healthPercentage), barHeight);
+
+        graphic.drawImage(heroAsset.getScaledSprite(), x, y, null);
     }
 
     private void renderTower(final Graphics2D graphic, final Entity tower) {

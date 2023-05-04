@@ -43,6 +43,7 @@ public abstract class EntityImpl implements Entity {
         this.damage = Objects.requireNonNull(damage);
         this.attackRate = Objects.requireNonNull(attackRate);
         this.timeSinceLastAction = 0;
+        this.position = Optional.empty();
     }
 
     /**
@@ -124,7 +125,7 @@ public abstract class EntityImpl implements Entity {
     /**
      * Create a new entity with a name.
      * @param name the name of the entity
-     */
+     *
     public EntityImpl(final String name) {
         this.position = Optional.empty();
         this.name = name;
@@ -133,6 +134,8 @@ public abstract class EntityImpl implements Entity {
         this.damage = 0;
         this.attackRate = 0;
     }
+    */
+
 
     /**
      * Set the parent world of the entity.
@@ -160,6 +163,8 @@ public abstract class EntityImpl implements Entity {
     public String getName() {
         return this.name;
     }
+
+
 
     /**
      * Get the parent world of the entity.

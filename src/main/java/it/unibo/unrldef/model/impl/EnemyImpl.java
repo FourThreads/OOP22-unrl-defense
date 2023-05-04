@@ -12,7 +12,7 @@ import it.unibo.unrldef.model.api.Player;
  * 
  * @author danilo.maglia@studio.unibo.it
  */
-public class EnemyImpl extends EntityImpl implements Enemy {
+public abstract class EnemyImpl extends EntityImpl implements Enemy {
     private double health;
     private double speed;
     private final double dropAmount;
@@ -21,7 +21,6 @@ public class EnemyImpl extends EntityImpl implements Enemy {
     private final double damageAttack;
     private int currentDirectionIndex;
     private Pair<Path.Direction, Double> currentDirection;
-    private boolean enemyAttack;
 
     /**
      * Create a new enemy.
@@ -35,8 +34,9 @@ public class EnemyImpl extends EntityImpl implements Enemy {
      * @param dropAmount
      *                       the amount of money that the enemy drops when it dies
      */
-    public EnemyImpl(final String name, final double startingHealth, final double speed, final double dropAmount, final double rangeAttack, final double damageAttack) {
-        super(name);
+    public EnemyImpl(final String name, final double startingHealth, final double speed, final double dropAmount,
+            final double rangeAttack, final double damageAttack, final long attackRate) {
+        super(name, rangeAttack, damageAttack, attackRate);
         this.health = startingHealth;
         this.speed = speed;
         this.dropAmount = dropAmount;
@@ -132,29 +132,26 @@ public class EnemyImpl extends EntityImpl implements Enemy {
      */
     @Override
     public void updateState(final long time) {
+        this.incrementTime(time);
         if (!this.hasReachedEndOfPath()) {
             if (this.getParentWorld().getSceneEntities().stream().filter(e -> e instanceof Hero).count() > 0) {
                 this.getParentWorld().getSceneEntities().stream().filter(e -> e instanceof Hero).forEach(e -> {
-                    final double distance = Math.sqrt(Math.pow(this.getPosition().get().getX() - e.getPosition().get().getX(), 2)
-                            + Math.pow(this.getPosition().get().getY() - e.getPosition().get().getY(), 2));
-                    //System.out.println("distance: " + distance);
+                    final double distance = Math
+                            .sqrt(Math.pow(this.getPosition().get().getX() - e.getPosition().get().getX(), 2)
+                                    + Math.pow(this.getPosition().get().getY() - e.getPosition().get().getY(), 2));
+                    // System.out.println("distance: " + distance);
                     if (distance <= this.rangeAttack) {
-                        this.enemyAttack = true;
+                        this.checkAttack();
                     }
                 });
-            } else {
-                this.enemyAttack = false;
             }
 
             if (this.currentDirection.getSecond() <= 0) {
                 this.currentDirection = this.getParentWorld().getPath().getDirection(this.currentDirectionIndex);
                 this.currentDirectionIndex++;
             }
-            if (this.enemyAttack) {
-                this.checkAttack();
-            } else {
-                this.move(time);
-            }
+
+            this.move(time);
         }
 
     }
@@ -193,26 +190,15 @@ public class EnemyImpl extends EntityImpl implements Enemy {
         this.currentDirection.setSecondElement(units - stepSize);
     }
 
-    /**
-     * Copy the enemy.
-     * 
-     * @return a copy of the enemy
-     */
-    @Override
-    public Enemy copy() {
-        final EnemyImpl enemy = new EnemyImpl(this.getName(), this.health, this.speed, this.dropAmount, this.rangeAttack, this.damageAttack);
-        if (this.getPosition().isPresent()) {
-            enemy.setPosition(this.getPosition().get().getX(), this.getPosition().get().getY());
-        }
-
-        enemy.setParentWorld(this.getParentWorld());
-        return enemy;
-    }
-
     @Override
     protected void attack() {
         System.out.println("Enemy attack");
+        this.getParentWorld().getSceneEntities().stream().filter(e -> e instanceof Hero).forEach(e -> {
+            ((Hero) e).reduceHealth(this.damageAttack);
+        });
     }
-    
-    
+
+    @Override
+    public abstract EnemyImpl copy();
+
 }

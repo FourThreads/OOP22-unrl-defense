@@ -15,5 +15,9 @@ public interface Hero extends Entity {
     boolean isActive();
 
     boolean isReady();
+
+    double getHealth();
+
+    void reduceHealth(double damage);
     
 }

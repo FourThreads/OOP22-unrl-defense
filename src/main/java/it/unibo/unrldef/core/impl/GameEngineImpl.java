@@ -42,7 +42,7 @@ public final class GameEngineImpl implements GameEngine {
         EXIT
     }
 
-    private static final long PERIOD = 1000 / 30;
+    private static final long PERIOD = 1000 / 20;
     private Player player;
     private World currentWorld;
     private InputHandler input;

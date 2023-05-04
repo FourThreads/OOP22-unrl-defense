@@ -24,12 +24,23 @@ public class Orc extends EnemyImpl {
     public static final double DROP = 50.0;
 
     public static final double DAMAGE_ATTACK = 10.0;
+
+    public static final double RANGE_ATTACK = 5.0;
+
+    public static final long ATTACK_RATE = 1000;
     /**
      * Create a new Orc.
      */
-
-    public static final double RANGE_ATTACK = 5.0;
     public Orc() {
-        super(Orc.NAME, Orc.HEALTH, Orc.SPEED, Orc.DROP, Orc.RANGE_ATTACK, Orc.DAMAGE_ATTACK);
+        super(Orc.NAME, Orc.HEALTH, Orc.SPEED, Orc.DROP, Orc.RANGE_ATTACK, Orc.DAMAGE_ATTACK, Orc.ATTACK_RATE);
     }
+
+    public Orc copy() {
+        final Orc enemy = new Orc();
+        this.getPosition().ifPresent(p -> enemy.setPosition(p.getX(), p.getY()));
+        enemy.setParentWorld(this.getParentWorld());
+        return enemy;
+    }
+
+
 }
