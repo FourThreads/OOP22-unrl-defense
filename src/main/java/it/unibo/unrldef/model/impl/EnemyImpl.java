@@ -192,7 +192,7 @@ public abstract class EnemyImpl extends EntityImpl implements Enemy {
 
     @Override
     protected void attack() {
-        System.out.println("Enemy attack");
+        //System.out.println("Enemy attack");
         this.getParentWorld().getSceneEntities().stream().filter(e -> e instanceof Hero).forEach(e -> {
             ((Hero) e).reduceHealth(this.damageAttack);
         });

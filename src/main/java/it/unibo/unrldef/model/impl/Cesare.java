@@ -10,7 +10,7 @@ public final class Cesare extends HeroImpl {
     private static final long ATTACK_RATE = 1000;
     private static final double DAMAGE = 10;
     public static final String NAME = "cesare";
-    public static final double HEALTH = 100;
+    public static final double HEALTH = 10000;
     public static final double MOVEMENT_RANGE = 20;
 
     public Cesare() {

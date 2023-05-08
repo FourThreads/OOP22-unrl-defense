@@ -378,7 +378,7 @@ public final class GamePanel extends JPanel {
     private void renderHeroMouseRange(final Graphics2D graphic) {
         if (this.mousePosition.getY() < this.getHeight() - 2 && this.mousePosition.getX() < this.getWidth() - 2
                 && this.mousePosition.getY() > 0 && this.mousePosition.getX() > 0) {
-            final double radius = Cesare.RADIUS;
+            final double radius = Cesare.MOVEMENT_RANGE;
             final Position mPos = this.fromRealPositionToPosition(this.mousePosition);
             final Position realPos = this.fromPositionToRealPosition(
                     this.cesare.getApplicationPoint(mPos));

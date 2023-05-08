@@ -15,8 +15,10 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     private final double startingHealth;
     private Optional<Enemy> target = Optional.empty();
     private final double movementeRange;
+    private Position startingPosition = null;
 
-    public HeroImpl(final String name, final double radius, final double damage, final long attackRate, final double health, final double movementRange) {
+    public HeroImpl(final String name, final double radius, final double damage, final long attackRate,
+            final double health, final double movementRange) {
         super(name, radius, damage, attackRate);
         this.health = Objects.requireNonNull(health);
         this.startingHealth = Objects.requireNonNull(health);
@@ -29,6 +31,9 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
         if (this.health <= 0) {
             this.deactivate();
         } else if (this.isActive()) {
+            if (this.startingPosition == null) {
+                this.startingPosition = this.getPosition().get();
+            }
             final List<Enemy> enemiesInRange = this.getParentWorld().sorroundingEnemies(this.getPosition().get(),
                     this.movementeRange);
             if (!enemiesInRange.isEmpty()) {
@@ -48,7 +53,8 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
 
     @Override
     public final boolean isReady() {
-        System.out.println("time since last action: " + this.getTimeSinceLastAction() + " attack rate: " + this.getAttackRate() + " active: " + this.isActive());
+        // System.out.println("time since last action: " + this.getTimeSinceLastAction()
+        // + " attack rate: " + this.getAttackRate() + " active: " + this.isActive());
         return this.getTimeSinceLastAction() >= this.getAttackRate() && !this.isActive();
     }
 
@@ -66,7 +72,8 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
             this.target.get().setSpeed(0);
             this.target.get().reduceHealth(this.getDamage());
             this.additionAttack(this.target.get());
-            System.out.println("attacked " + this.target.get().getName() + " with " + this.getDamage() + " damage");
+            // System.out.println("attacked " + this.target.get().getName() + " with " +
+            // this.getDamage() + " damage");
         } else {
             this.target = Optional.empty();
         }
@@ -76,7 +83,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     public final boolean isActive() {
         return this.active;
     }
-    
+
     @Override
     public final boolean ifPossibleActivate(final Position position) {
         if (!this.isActive() && this.isReady()) {
@@ -98,6 +105,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
         this.target.ifPresent(t -> t.resetSpeed());
         this.health = this.startingHealth;
     }
+
     protected abstract void additionAttack(Enemy target);
 
     public final double getHealth() {
@@ -110,25 +118,25 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     }
 
     private void move() {
-        final int ex = (int)this.target.get().getPosition().get().getX();
-        final int ey = (int)this.target.get().getPosition().get().getY();
-        final int x = (int)this.getPosition().get().getX();
-        final int y = (int)this.getPosition().get().getY();
-        if (ex == x && ey <= y) {
+        final int ex = (int) this.target.get().getPosition().get().getX();
+        final int ey = (int) this.target.get().getPosition().get().getY();
+        final int x = (int) this.getPosition().get().getX();
+        final int y = (int) this.getPosition().get().getY();
+        if (ex == x && ey <= y && this.startingPosition.getY() - this.movementeRange >= y) {
             this.setPosition(x, y - 1);
-        } else if (ex == x && ey >= y) {
+        } else if (ex == x && ey >= y && this.startingPosition.getY() - this.movementeRange <= y) {
             this.setPosition(x, y + 1);
-        } else if (ex <= x && ey == y) {
+        } else if (ex <= x && ey == y && this.startingPosition.getX() + this.movementeRange >= x) {
             this.setPosition(x - 1, y);
-        } else if (ex >= x && ey == y) {
+        } else if (ex >= x && ey == y && this.startingPosition.getX() - this.movementeRange <= x) {
             this.setPosition(x + 1, y);
         } else if (ex <= x && ey <= y) {
             this.setPosition(x - 1, y - 1);
         } else if (ex <= x && ey >= y) {
             this.setPosition(x - 1, y + 1);
-        } else if (ex >= x && ey <= y) {
+        } else if (ex >= x && ey <= y && this.startingPosition.getX() + this.movementeRange >= x) {
             this.setPosition(x + 1, y - 1);
-        } else if (ex >= x && ey >= y) {
+        } else if (ex >= x && ey >= y && this.startingPosition.getX() + this.movementeRange >= x) {
             this.setPosition(x + 1, y + 1);
         }
     }
