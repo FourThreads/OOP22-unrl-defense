@@ -11,10 +11,11 @@ public final class Cesare extends HeroImpl {
     private static final double DAMAGE = 10;
     public static final String NAME = "cesare";
     public static final double HEALTH = 10000;
-    public static final double MOVEMENT_RANGE = 20;
+    public static final double MOVEMENT_RANGE = 10;
+    public static final double SPEED = 5.0;
 
     public Cesare() {
-        super(NAME, RADIUS, DAMAGE, ATTACK_RATE, HEALTH, MOVEMENT_RANGE);
+        super(NAME, RADIUS, DAMAGE, ATTACK_RATE, HEALTH, MOVEMENT_RANGE, SPEED);
     }
 
     @Override

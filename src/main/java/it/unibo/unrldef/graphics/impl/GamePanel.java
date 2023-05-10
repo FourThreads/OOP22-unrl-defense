@@ -424,7 +424,7 @@ public final class GamePanel extends JPanel {
         // barra della vita sopra l'eroe, deve essere di colore verde e quando la vita diminuisce diventa rossa
         final double healthPercentage = ((Hero) hero).getHealth() / startingHealth;
         final int width = heroAsset.getScaledDimension().getFirst();
-        final Position realPos = this.fromPositionToRealPosition(hero.getPosition().get());
+        final Position realPos = this.fromPositionToRealPosition(heroAsset.getApplicationPoint(hero.getPosition().get()));
         final int x = (int) realPos.getX();
         final int y = (int) realPos.getY();
         final int healthBarY = (int) (y - 1 * yScale);

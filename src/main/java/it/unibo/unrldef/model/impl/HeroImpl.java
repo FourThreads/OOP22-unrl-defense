@@ -16,9 +16,10 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     private Optional<Enemy> target = Optional.empty();
     private final double movementeRange;
     private Position startingPosition = null;
+    private double speed;
 
     public HeroImpl(final String name, final double radius, final double damage, final long attackRate,
-            final double health, final double movementRange) {
+            final double health, final double movementRange, final double speed) {
         super(name, radius, damage, attackRate);
         this.health = Objects.requireNonNull(health);
         this.startingHealth = Objects.requireNonNull(health);
@@ -31,10 +32,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
         if (this.health <= 0) {
             this.deactivate();
         } else if (this.isActive()) {
-            if (this.startingPosition == null) {
-                this.startingPosition = this.getPosition().get();
-            }
-            final List<Enemy> enemiesInRange = this.getParentWorld().sorroundingEnemies(this.getPosition().get(),
+            final List<Enemy> enemiesInRange = this.getParentWorld().sorroundingEnemies(this.startingPosition,
                     this.movementeRange);
             if (!enemiesInRange.isEmpty()) {
                 final List<Enemy> enemiesToAttack = this.getParentWorld().sorroundingEnemies(this.getPosition().get(),
@@ -43,7 +41,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
                     this.checkAttack();
                 } else {
                     this.target = Optional.of(enemiesInRange.get(0));
-                    this.move();
+                    this.move(time);
                 }
             } else {
                 this.target = Optional.empty();
@@ -84,11 +82,16 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
         return this.active;
     }
 
+    public double getSpeed() {
+        return this.speed;
+    }
+
     @Override
     public final boolean ifPossibleActivate(final Position position) {
         if (!this.isActive() && this.isReady()) {
             this.activate();
             super.setPosition(position.getX(), position.getY());
+            this.startingPosition = this.getPosition().get();
             this.checkAttack();
             return true;
         }
@@ -103,6 +106,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
         this.active = false;
         this.resetElapsedTime();
         this.target.ifPresent(t -> t.resetSpeed());
+        this.startingPosition = null;
         this.health = this.startingHealth;
     }
 
@@ -117,26 +121,28 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
         this.health -= amount;
     }
 
-    private void move() {
+    private void move(final long time) {
         final int ex = (int) this.target.get().getPosition().get().getX();
         final int ey = (int) this.target.get().getPosition().get().getY();
         final int x = (int) this.getPosition().get().getX();
         final int y = (int) this.getPosition().get().getY();
-        if (ex == x && ey <= y && this.startingPosition.getY() - this.movementeRange >= y) {
+        final double actualSpeed = this.speed * (time / 1000.0);
+        //final double stepSize = (units - actualSpeed) < 0 ? units : actualSpeed;
+        if (ex == x && ey <= y) {
             this.setPosition(x, y - 1);
-        } else if (ex == x && ey >= y && this.startingPosition.getY() - this.movementeRange <= y) {
+        } else if (ex == x && ey >= y) {
             this.setPosition(x, y + 1);
-        } else if (ex <= x && ey == y && this.startingPosition.getX() + this.movementeRange >= x) {
+        } else if (ex <= x && ey == y) {
             this.setPosition(x - 1, y);
-        } else if (ex >= x && ey == y && this.startingPosition.getX() - this.movementeRange <= x) {
+        } else if (ex >= x && ey == y) {
             this.setPosition(x + 1, y);
         } else if (ex <= x && ey <= y) {
             this.setPosition(x - 1, y - 1);
         } else if (ex <= x && ey >= y) {
             this.setPosition(x - 1, y + 1);
-        } else if (ex >= x && ey <= y && this.startingPosition.getX() + this.movementeRange >= x) {
+        } else if (ex >= x && ey <= y) {
             this.setPosition(x + 1, y - 1);
-        } else if (ex >= x && ey >= y && this.startingPosition.getX() + this.movementeRange >= x) {
+        } else if (ex >= x && ey >= y) {
             this.setPosition(x + 1, y + 1);
         }
     }
