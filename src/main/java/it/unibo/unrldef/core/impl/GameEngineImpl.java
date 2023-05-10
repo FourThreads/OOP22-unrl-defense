@@ -3,14 +3,19 @@ package it.unibo.unrldef.core.impl;
 import java.util.Optional;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import it.unibo.unrldef.UnrealDefense;
 import it.unibo.unrldef.common.Position;
 import it.unibo.unrldef.core.api.GameEngine;
 import it.unibo.unrldef.graphics.api.View;
+import it.unibo.unrldef.graphics.impl.ViewImpl;
 import it.unibo.unrldef.input.api.InputHandler;
 import it.unibo.unrldef.input.api.Input.InputType;
+import it.unibo.unrldef.input.impl.InputHandlerImpl;
 import it.unibo.unrldef.model.api.Player;
 import it.unibo.unrldef.model.api.World;
 import it.unibo.unrldef.model.api.World.GameState;
+import it.unibo.unrldef.model.impl.LevelBuilder;
+import it.unibo.unrldef.model.impl.PlayerImpl;
 
 /**
  * This class modules the engine that updates the game.
@@ -163,6 +168,10 @@ public final class GameEngineImpl implements GameEngine {
                     break;
                 case EXIT_GAME:
                     this.exitGame();
+                    System.exit(0);
+                    break;
+                case RESTART:
+                    this.restartGame();
                     break;
                 default:
                     break;
@@ -214,5 +223,15 @@ public final class GameEngineImpl implements GameEngine {
     private void exitGame() {
         this.status = LoopState.EXIT;
         this.gameView.exitGame();
+    }
+
+    /**
+     * Restarts the game.
+     */
+    private void restartGame() {
+        this.exitGame();
+        this.status = LoopState.MENU;
+
+        UnrealDefense.startLevelOne();
     }
 }

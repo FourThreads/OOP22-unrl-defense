@@ -30,6 +30,10 @@ public final class UnrealDefense {
      * @param args unused
      */
     public static void main(final String[] args) {
+        startLevelOne();
+    }
+
+    public static void startLevelOne() {
         final Player p = new PlayerImpl();
         final LevelBuilder level = new LevelBuilder(p);
         final World world = level.fromFile("/config/levelOne.json");

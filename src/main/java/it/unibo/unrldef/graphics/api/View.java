@@ -35,4 +35,6 @@ public interface View {
      * Exits the game.
      */
     void exitGame();
+
+    void restartGame();
 }

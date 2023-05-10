@@ -37,7 +37,9 @@ public interface Input {
         /**
          * The default selection of the player.
          */
-        MISS
+        MISS,
+
+        RESTART
     }
 
     /**

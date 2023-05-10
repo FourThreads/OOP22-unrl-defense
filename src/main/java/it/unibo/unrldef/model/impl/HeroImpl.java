@@ -24,6 +24,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
         this.health = Objects.requireNonNull(health);
         this.startingHealth = Objects.requireNonNull(health);
         this.movementeRange = Objects.requireNonNull(movementRange);
+        this.speed = speed;
     }
 
     @Override
@@ -126,24 +127,21 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
         final int ey = (int) this.target.get().getPosition().get().getY();
         final int x = (int) this.getPosition().get().getX();
         final int y = (int) this.getPosition().get().getY();
+        // calcolo la distanza tra la posizione del nemico e dell'eroe
+        final double dx = ex - x;
+        final double dy = ey - y;
+        final double units = Math.sqrt(dx * dx + dy * dy);
         final double actualSpeed = this.speed * (time / 1000.0);
-        //final double stepSize = (units - actualSpeed) < 0 ? units : actualSpeed;
-        if (ex == x && ey <= y) {
-            this.setPosition(x, y - 1);
-        } else if (ex == x && ey >= y) {
-            this.setPosition(x, y + 1);
-        } else if (ex <= x && ey == y) {
-            this.setPosition(x - 1, y);
-        } else if (ex >= x && ey == y) {
-            this.setPosition(x + 1, y);
-        } else if (ex <= x && ey <= y) {
-            this.setPosition(x - 1, y - 1);
-        } else if (ex <= x && ey >= y) {
-            this.setPosition(x - 1, y + 1);
-        } else if (ex >= x && ey <= y) {
-            this.setPosition(x + 1, y - 1);
-        } else if (ex >= x && ey >= y) {
-            this.setPosition(x + 1, y + 1);
-        }
+        final double stepSize = (units - actualSpeed) < 0 ? units : actualSpeed;
+        // calcolo l'angolo tra la posizione del nemico e dell'eroe e lo uso per calcolare la direzione in cui muoversi
+        final double angle = Math.atan2(dy, dx);
+        final double nx = x + stepSize * Math.cos(angle);
+        final double ny = y + stepSize * Math.sin(angle);
+
+        System.out.println("units: " + units + " | stepSize: " + stepSize + " | angle: " + angle + " | dx " + dx
+                + " | dy " + dy + " | nx " + nx + " | ny " + ny);
+        this.setPosition(nx, ny);
+
+        
     }
 }

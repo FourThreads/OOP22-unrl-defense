@@ -187,6 +187,10 @@ public final class DefenseButtonPanel extends JPanel {
         this.buttons.values().forEach(b -> b.setEnabled(false));
     }
 
+    public void removeAllButtons() {
+        this.buttons.values().forEach(b -> this.remove(b));
+    }
+
     private void writeObject(final ObjectOutputStream stream) throws IOException {
         stream.defaultWriteObject();
     }

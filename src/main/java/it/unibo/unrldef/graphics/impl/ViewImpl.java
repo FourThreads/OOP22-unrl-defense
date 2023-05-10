@@ -48,6 +48,7 @@ public final class ViewImpl implements View {
     private final World world;
     private final MenuPanel menuPanel;
     private final InputHandler inputHandler;
+    private boolean isEnded = false;
 
     /**
      * Builds the view of the game starting with the menu.
@@ -154,6 +155,8 @@ public final class ViewImpl implements View {
 
     @Override
     public void renderEndGame(final GameState state) {
+        final JButton exit = new JButton("Exit");
+        final JButton menu = new JButton("Restart");
         final Graphics g = this.frame.getGraphics();
         // the font is setted to be 1/8 of the width of the frame just
         // as a reference so that it is always readable
@@ -171,15 +174,40 @@ public final class ViewImpl implements View {
             default:
                 break;
         }
-        this.buttonPanel.disableAllButtons();
         // the text is centered in the middle of the frame using the height and
         // the width of the frame as a reference so that it is always centered
         g.drawString(displayState, this.frame.getWidth() / 10, this.frame.getHeight() / 2);
         g.setColor(Color.GREEN);
+
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                inputHandler.addInput(new InputImpl(InputType.EXIT_GAME));
+            }
+        });
+        menu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                inputHandler.addInput(new InputImpl(InputType.RESTART));
+            }
+        });
+        // aggiungo i bottoni per uscire o tornare al menu al centro del frame
+        if (!this.isEnded) {
+            this.buttonPanel.removeAllButtons();
+            this.buttonPanel.add(exit);
+            this.buttonPanel.add(menu);
+            this.frame.revalidate();
+            this.isEnded = true;
+        }
     }
 
     @Override
     public void exitGame() {
+        this.frame.dispose();
+    }
+
+    @Override
+    public void restartGame() {
         this.frame.dispose();
     }
 }
