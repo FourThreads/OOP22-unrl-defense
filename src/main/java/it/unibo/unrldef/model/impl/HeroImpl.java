@@ -123,25 +123,45 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     }
 
     private void move(final long time) {
-        final int ex = (int) this.target.get().getPosition().get().getX();
-        final int ey = (int) this.target.get().getPosition().get().getY();
-        final int x = (int) this.getPosition().get().getX();
-        final int y = (int) this.getPosition().get().getY();
-        // calcolo la distanza tra la posizione del nemico e dell'eroe
-        final double dx = ex - x;
-        final double dy = ey - y;
-        final double units = Math.sqrt(dx * dx + dy * dy);
+        final double ex = this.target.get().getPosition().get().getX();
+        final double ey = this.target.get().getPosition().get().getY();
+        final double x = this.getPosition().get().getX();
+        final double y = this.getPosition().get().getY();
+        final double dx = Math.abs(ex - x);
+        final double dy = Math.abs(ey - y);
         final double actualSpeed = this.speed * (time / 1000.0);
-        final double stepSize = (units - actualSpeed) < 0 ? units : actualSpeed;
-        // calcolo l'angolo tra la posizione del nemico e dell'eroe e lo uso per calcolare la direzione in cui muoversi
+        final double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+        final double stepSize = (distance - actualSpeed) < 0 ? distance : actualSpeed;
         final double angle = Math.atan2(dy, dx);
-        final double nx = x + stepSize * Math.cos(angle);
-        final double ny = y + stepSize * Math.sin(angle);
-
-        System.out.println("units: " + units + " | stepSize: " + stepSize + " | angle: " + angle + " | dx " + dx
-                + " | dy " + dy + " | nx " + nx + " | ny " + ny);
-        this.setPosition(nx, ny);
-
-        
+        double nx = 0;
+        double ny = 0;
+        if (distance <= this.speed * (time / 1000.0)) {
+            this.setPosition(ex, ey);
+        } else {
+            if (ex == x && ey < y) {
+                nx = x;
+                ny = y - stepSize;
+            } else if (ex == x && ey > y) {
+                nx = x;
+                ny = y + stepSize;
+            } else {
+                double movX = stepSize * Math.cos(angle);
+                double movY = stepSize * Math.sin(angle);
+                if (ex > x && ey <= y) {
+                    nx = x + movX;
+                    ny = y - movY;
+                } else if (ex < x && ey <= y) {
+                    nx = x - movX;
+                    ny = y - movY;
+                } else if (ex < x && ey > y) {
+                    nx = x - movX;
+                    ny = y + movY;
+                } else if (ex > x && ey > y) {
+                    nx = x + movX;
+                    ny = y + movY;
+                }
+            }
+            this.setPosition(nx, ny);
+        }
     }
 }

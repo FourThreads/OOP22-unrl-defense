@@ -127,6 +127,18 @@ public final class DefenseButtonPanel extends JPanel {
         return button;
     }
 
+    public void addEndgameButton() {
+        final JButton endgameButton = new JButton("End Game");
+        endgameButton.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        endgameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        this.add(endgameButton);
+    }
+
     /**
      * Updates the state of the buttons.
      * 
