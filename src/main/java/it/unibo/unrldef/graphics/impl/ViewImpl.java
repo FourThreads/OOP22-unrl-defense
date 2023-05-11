@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import it.unibo.unrldef.graphics.api.View;
+import it.unibo.unrldef.input.api.Input;
 import it.unibo.unrldef.input.api.InputHandler;
 import it.unibo.unrldef.input.api.Input.InputType;
 import it.unibo.unrldef.input.impl.InputImpl;
@@ -122,11 +123,11 @@ public final class ViewImpl implements View {
      * 
      * @return the button to exit the game
      */
-    private JButton createExitButton() {
+    private JButton createButton(String fileName, Input input) {
         JButton exit = null;
         try {
             exit = new JButton(new ImageIcon(
-                    new ImageIcon(ImageIO.read(this.getClass().getResourceAsStream(ASSETS_FOLDER + "exit.png")))
+                    new ImageIcon(ImageIO.read(this.getClass().getResourceAsStream(ASSETS_FOLDER + fileName)))
                             .getImage()
                             .getScaledInstance(DefenseButtonPanel.WIDTH, DefenseButtonPanel.HEIGHT,
                                     java.awt.Image.SCALE_SMOOTH)));
@@ -134,7 +135,7 @@ public final class ViewImpl implements View {
             exit.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(final ActionEvent e) {
-                    inputHandler.addInput(new InputImpl(InputType.EXIT_GAME));
+                    inputHandler.addInput(input);
                 }
             });
         } catch (IOException e) {
@@ -155,7 +156,6 @@ public final class ViewImpl implements View {
 
     @Override
     public void renderEndGame(final GameState state) {
-        final JButton exit = new JButton("Exit");
         final JButton menu = new JButton("Restart");
         final Graphics g = this.frame.getGraphics();
         // the font is setted to be 1/8 of the width of the frame just
@@ -178,13 +178,6 @@ public final class ViewImpl implements View {
         // the width of the frame as a reference so that it is always centered
         g.drawString(displayState, this.frame.getWidth() / 10, this.frame.getHeight() / 2);
         g.setColor(Color.GREEN);
-
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                inputHandler.addInput(new InputImpl(InputType.EXIT_GAME));
-            }
-        });
         menu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -194,11 +187,9 @@ public final class ViewImpl implements View {
         // aggiungo i bottoni per uscire o tornare al menu al centro del frame
         if (!this.isEnded) {
             this.buttonPanel.removeAllButtons();
-            exit.setPreferredSize(new Dimension(DefenseButtonPanel.WIDTH, DefenseButtonPanel.HEIGHT));
-            menu.setPreferredSize(new Dimension(DefenseButtonPanel.WIDTH, DefenseButtonPanel.HEIGHT));
-            this.buttonPanel.add(exit);
-            this.buttonPanel.add(menu);
-            this.buttonPanel.revalidate();
+            menu.setSize(new Dimension(DefenseButtonPanel.WIDTH, DefenseButtonPanel.HEIGHT));
+            this.buttonPanel.add(this.createButton("exit.png", new InputImpl(InputType.EXIT_GAME)));
+            this.buttonPanel.add(this.createButton("restart.png", new InputImpl(InputType.RESTART)));
             this.frame.revalidate();
             this.isEnded = true;
         }
