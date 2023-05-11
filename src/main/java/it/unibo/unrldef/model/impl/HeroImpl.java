@@ -17,6 +17,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     private final double movementeRange;
     private Position startingPosition = null;
     private double speed;
+    private long lastAction;
 
     public HeroImpl(final String name, final double radius, final double damage, final long attackRate,
             final double health, final double movementRange, final double speed) {
@@ -40,6 +41,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
                         this.getRadius());
                 if (!enemiesToAttack.isEmpty()) {
                     this.checkAttack();
+                    this.lastAction = System.currentTimeMillis();
                 } else {
                     this.target = Optional.of(enemiesInRange.get(0));
                     this.move(time);
@@ -47,13 +49,14 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
             } else {
                 this.target = Optional.empty();
             }
+            if (lastAction < System.currentTimeMillis() - 5000) {
+                this.deactivate();
+            }
         }
     }
 
     @Override
     public final boolean isReady() {
-        // System.out.println("time since last action: " + this.getTimeSinceLastAction()
-        // + " attack rate: " + this.getAttackRate() + " active: " + this.isActive());
         return this.getTimeSinceLastAction() >= this.getAttackRate() && !this.isActive();
     }
 
@@ -71,8 +74,6 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
             this.target.get().setSpeed(0);
             this.target.get().reduceHealth(this.getDamage());
             this.additionAttack(this.target.get());
-            // System.out.println("attacked " + this.target.get().getName() + " with " +
-            // this.getDamage() + " damage");
         } else {
             this.target = Optional.empty();
         }
@@ -93,6 +94,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
             this.activate();
             super.setPosition(position.getX(), position.getY());
             this.startingPosition = this.getPosition().get();
+            this.lastAction = System.currentTimeMillis();
             this.checkAttack();
             return true;
         }
@@ -127,41 +129,18 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
         final double ey = this.target.get().getPosition().get().getY();
         final double x = this.getPosition().get().getX();
         final double y = this.getPosition().get().getY();
-        final double dx = Math.abs(ex - x);
-        final double dy = Math.abs(ey - y);
-        final double actualSpeed = this.speed * (time / 1000.0);
-        final double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-        final double stepSize = (distance - actualSpeed) < 0 ? distance : actualSpeed;
-        final double angle = Math.atan2(dy, dx);
-        double nx = 0;
-        double ny = 0;
-        if (distance <= this.speed * (time / 1000.0)) {
-            this.setPosition(ex, ey);
-        } else {
-            if (ex == x && ey < y) {
-                nx = x;
-                ny = y - stepSize;
-            } else if (ex == x && ey > y) {
-                nx = x;
-                ny = y + stepSize;
-            } else {
-                double movX = stepSize * Math.cos(angle);
-                double movY = stepSize * Math.sin(angle);
-                if (ex > x && ey <= y) {
-                    nx = x + movX;
-                    ny = y - movY;
-                } else if (ex < x && ey <= y) {
-                    nx = x - movX;
-                    ny = y - movY;
-                } else if (ex < x && ey > y) {
-                    nx = x - movX;
-                    ny = y + movY;
-                } else if (ex > x && ey > y) {
-                    nx = x + movX;
-                    ny = y + movY;
-                }
-            }
-            this.setPosition(nx, ny);
-        }
+
+        final double dx = ex - x;
+        final double dy = ey - y;
+
+        final double distance = Math.sqrt(dx * dx + dy * dy);
+        final double maxStep = this.speed * (time / 1000.0);
+        final double stepSize = Math.min(distance, maxStep);
+
+        double nx = x + (stepSize / distance) * dx;
+        double ny = y + (stepSize / distance) * dy;
+
+        this.setPosition(nx, ny);
+
     }
 }
