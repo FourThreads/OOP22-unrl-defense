@@ -5,6 +5,7 @@ import it.unibo.unrldef.model.api.Enemy;
 import it.unibo.unrldef.model.api.Tower;
 import it.unibo.unrldef.model.api.World;
 import it.unibo.unrldef.model.api.Path.Direction;
+import it.unibo.unrldef.model.impl.EnemyImpl;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,12 +37,11 @@ class TowerImplTest {
      */
     @Test
     void testAttack() {
-        final int testDamage = 5;
         final Position testPosition = new Position(0, 0);
         this.testWorld.tryBuildTower(testPosition, Hunter.NAME);
         final Tower testTower = (Tower) this.testWorld.getSceneEntities().stream()
                 .filter(e -> e instanceof Tower).findFirst().get();
-        final Enemy testEnemy = new EnemyImpl("test", testDamage, 0, 0);
+        final Enemy testEnemy = new Goblin();
         final double startingHealth = testEnemy.getHealth();
         this.testWorld.spawnEnemy(testEnemy, testPosition);
         testTower.updateState(TEST_AFS);

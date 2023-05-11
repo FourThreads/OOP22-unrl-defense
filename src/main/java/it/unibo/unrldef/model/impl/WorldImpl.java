@@ -50,7 +50,6 @@ public final class WorldImpl implements World {
     private final List<Wave> waves;
     private int waveCounter;
     private final List<Tower> placedTowers;
-    private final List<Hero> placedHeroes;
     private final Map<String, Tower> availableTowers;
     private final Set<Position> availablePositions;
     private final List<Enemy> livingEnemies;
@@ -76,7 +75,6 @@ public final class WorldImpl implements World {
         this.timeToNextSpawn = 0;
         this.waveCounter = 0;
         this.bank = bank;
-        this.placedHeroes = new ArrayList<>();
 
     }
 
@@ -331,7 +329,6 @@ public final class WorldImpl implements World {
         private final Map<String, Tower> availableTowers;
         private final Set<Position> validTowersPositions;
 
-
         /**
          * the builder's constructor.
          * 
@@ -444,6 +441,7 @@ public final class WorldImpl implements World {
 
         /**
          * changes the default implementation of bank with a personal one.
+         * 
          * @param bank
          * @return the builder
          */
@@ -454,6 +452,7 @@ public final class WorldImpl implements World {
 
         /**
          * changes the default implementation of castle integrity with a personal one.
+         * 
          * @param castleIntegrity
          * @return the builder
          */
