@@ -41,7 +41,6 @@ import it.unibo.unrldef.model.impl.Hunter;
 import it.unibo.unrldef.model.impl.Orc;
 import it.unibo.unrldef.model.impl.SnowStorm;
 import it.unibo.unrldef.model.api.Hero;
-import it.unibo.unrldef.model.impl.HeroImpl;
 
 /**
  * 

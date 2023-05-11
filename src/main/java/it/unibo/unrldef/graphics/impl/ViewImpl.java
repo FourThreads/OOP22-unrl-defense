@@ -184,7 +184,6 @@ public final class ViewImpl implements View {
                 inputHandler.addInput(new InputImpl(InputType.RESTART));
             }
         });
-        // aggiungo i bottoni per uscire o tornare al menu al centro del frame
         if (!this.isEnded) {
             this.buttonPanel.removeAllButtons();
             menu.setSize(new Dimension(DefenseButtonPanel.WIDTH, DefenseButtonPanel.HEIGHT));
