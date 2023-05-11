@@ -52,7 +52,6 @@ public final class MenuPanel extends JPanel {
         return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
-
     /**
      * Constructor of the MenuPanel.
      * 
@@ -96,12 +95,7 @@ public final class MenuPanel extends JPanel {
         this.startButton = new JButton("Start");
         this.startButton.setBounds(DEFAULT_WIDTH / 2, DEFAULT_HEIGHT / 2 + BUTTON_PADDING, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.startButton.addActionListener(e -> {
-            if (this.nameField.getText().length() > 0) {
-                this.inputHandler.addInput(new InputImpl(InputType.START_GAME, this.nameField.getText()));
-            } else {
-                // ! TO FIX
-                this.inputHandler.addInput(new InputImpl(InputType.START_GAME, "Player1234"));
-            }
+            this.inputHandler.addInput(new InputImpl(InputType.START_GAME, this.nameField.getText()));
         });
         exitButton = new JButton("Exit");
         exitButton.setBounds(DEFAULT_HEIGHT / 2, DEFAULT_HEIGHT / 2, BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -133,8 +127,7 @@ public final class MenuPanel extends JPanel {
         this.exitButton.setBounds((int) ((DEFAULT_WIDTH / 2 - CENTER) * xScale),
                 (int) ((DEFAULT_HEIGHT / 2 + CENTER) * yScale),
                 (int) (BUTTON_WIDTH * xScale), (int) (BUTTON_HEIGHT * yScale));
-        // ! TO FIX
-        if (this.nameField.getText().length() >= 0) {
+        if (this.nameField.getText().length() > 0) {
             this.startButton.setEnabled(true);
         } else {
             this.startButton.setEnabled(false);
