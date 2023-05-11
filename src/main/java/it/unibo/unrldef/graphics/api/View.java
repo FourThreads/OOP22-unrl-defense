@@ -36,5 +36,8 @@ public interface View {
      */
     void exitGame();
 
+    /**
+     * Restarts the game.
+     */
     void restartGame();
 }

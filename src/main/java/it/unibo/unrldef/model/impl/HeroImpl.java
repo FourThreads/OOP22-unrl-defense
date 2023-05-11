@@ -23,7 +23,19 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     private Position startingPosition = null;
     private double speed;
     private long lastAction;
+    private final int timeToDespawn = 10000;
 
+    /**
+     * Constructor of HeroImpl.
+     * 
+     * @param name          name of the hero
+     * @param radius        radius of the hero
+     * @param damage        damage of the hero
+     * @param attackRate    attack rate of the hero
+     * @param health        health of the hero
+     * @param movementRange movement range of the hero
+     * @param speed         speed of the hero
+     */
     public HeroImpl(final String name, final double radius, final double damage, final long attackRate,
             final double health, final double movementRange, final double speed) {
         super(name, radius, damage, attackRate);
@@ -34,7 +46,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     }
 
     @Override
-    public void updateState(long time) {
+    public final void updateState(final long time) {
         this.incrementTime(time);
         if (getHealth() <= 0) {
             this.deactivate();
@@ -54,7 +66,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
             } else {
                 this.target = Optional.empty();
             }
-            if (lastAction < System.currentTimeMillis() - 5000) {
+            if (lastAction < System.currentTimeMillis() - timeToDespawn) {
                 this.deactivate();
             }
         }
@@ -66,7 +78,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     }
 
     @Override
-    protected void attack() {
+    protected final void attack() {
         final List<Enemy> enemiesInRange = this.getParentWorld().sorroundingEnemies(this.getPosition().get(),
                 this.getRadius());
         if (!enemiesInRange.isEmpty()) {
@@ -118,12 +130,15 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
      */
     protected abstract void additionAttack(Enemy target);
 
+    /**
+     * @return the health of the hero.
+     */
     public final double getHealth() {
         return this.health;
     }
 
     @Override
-    public void reduceHealth(final double amount) {
+    public final void reduceHealth(final double amount) {
         this.health -= amount;
     }
 

@@ -89,6 +89,9 @@ public final class PlayerImpl implements Player {
                 .toList());
     }
 
+    /**
+     * @return a set of heros that have been activeted
+     */
     public Set<Hero> getActiveHeros() {
         return new HashSet<Hero>(this.getHeros().stream()
                 .filter(Hero::isActive)
@@ -96,7 +99,7 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public boolean spawnHero(Position pos, String name) {
+    public boolean spawnHero(final Position pos, final String name) {
         return this.heros.containsKey(name) && this.heros.get(name).ifPossibleActivate(pos);
     }
 
@@ -106,12 +109,12 @@ public final class PlayerImpl implements Player {
     }
 
     @Override
-    public void updateHeroState(long elapsed) {
+    public void updateHeroState(final long elapsed) {
         this.getHeros().forEach(hero -> hero.updateState(elapsed));
     }
 
-
-    public void setHeros(Set<Hero> hero) {
+    @Override
+    public void setHeros(final Set<Hero> hero) {
         hero.forEach(e -> this.heros.put(e.getName(), e));
     }
 

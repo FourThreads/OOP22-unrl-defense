@@ -33,6 +33,9 @@ public final class UnrealDefense {
         startLevelOne();
     }
 
+    /**
+     * Starts the first level.
+     */
     public static void startLevelOne() {
         final Player p = new PlayerImpl();
         final LevelBuilder level = new LevelBuilder(p);

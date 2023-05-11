@@ -122,10 +122,10 @@ public final class ViewImpl implements View {
      * Creates a new button to exit the game.
      * 
      * @param input the input
-     * @param name  the name of the file
+     * @param fileName  the name of the file
      * @return the button to exit the game
      */
-    private JButton createButton(String fileName, Input input) {
+    private JButton createButton(final String fileName, final Input input) {
         JButton exit = null;
         try {
             exit = new JButton(new ImageIcon(

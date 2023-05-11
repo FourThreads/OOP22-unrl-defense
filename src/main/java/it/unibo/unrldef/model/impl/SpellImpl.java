@@ -71,7 +71,6 @@ public abstract class SpellImpl extends EntityImpl implements Spell {
 
     @Override
     public final boolean isReady() {
-        //System.out.println("time since last action: " + this.getTimeSinceLastAction() + " attack rate: " + this.getAttackRate());
         return this.getTimeSinceLastAction() >= this.getAttackRate() && !this.isActive();
     }
 

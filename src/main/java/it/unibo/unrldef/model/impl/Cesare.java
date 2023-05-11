@@ -3,6 +3,11 @@ package it.unibo.unrldef.model.impl;
 import it.unibo.unrldef.model.api.Enemy;
 import it.unibo.unrldef.model.api.Hero;
 
+/**
+ * A hero that can attack enemies.
+ * 
+ * @author tommaso.ceredi@studio.unibo.it
+ */
 public final class Cesare extends HeroImpl {
 
     private static final double RADIUS = 2;
@@ -22,6 +27,9 @@ public final class Cesare extends HeroImpl {
     public static final double MOVEMENT_RANGE = 10;
     private static final double SPEED = 5.0;
 
+    /**
+     * Constructor of Cesare.
+     */
     public Cesare() {
         super(NAME, RADIUS, DAMAGE, ATTACK_RATE, HEALTH, MOVEMENT_RANGE, SPEED);
     }
@@ -32,8 +40,7 @@ public final class Cesare extends HeroImpl {
     }
 
     @Override
-    protected void additionAttack(Enemy target) {
-        
+    protected void additionAttack(final Enemy target) {
     }
-    
+
 }

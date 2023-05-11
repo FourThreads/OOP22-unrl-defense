@@ -187,6 +187,9 @@ public final class DefenseButtonPanel extends JPanel {
         this.buttons.values().forEach(b -> b.setEnabled(false));
     }
 
+    /**
+     * Removes all the buttons in the panel.
+     */
     public void removeAllButtons() {
         this.buttons.values().forEach(b -> this.remove(b));
     }

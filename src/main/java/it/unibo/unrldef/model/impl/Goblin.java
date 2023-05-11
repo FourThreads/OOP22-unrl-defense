@@ -13,6 +13,7 @@ public class Goblin extends EnemyImpl {
     /**
      * The speed of the enemy.
      */
+    // ! TO FIX
     public static final double SPEED = 200.0;
     /**
      * The health of the enemy.
@@ -23,19 +24,22 @@ public class Goblin extends EnemyImpl {
      */
     public static final double DROP = 30.0;
 
-    public static final double RANGE_ATTACK = 5.0;
+    private static final double RANGE_ATTACK = 5.0;
 
-    public static final double DAMAGE_ATTACK = 5.0;
+    private static final double DAMAGE_ATTACK = 5.0;
 
-    public static final long ATTACK_RATE = 1000;
+    private static final long ATTACK_RATE = 1000;
+
     /**
      * Create a new Goblin.
      */
     public Goblin() {
-        super(Goblin.NAME, Goblin.HEALTH, Goblin.SPEED, Goblin.DROP, Goblin.RANGE_ATTACK, Goblin.DAMAGE_ATTACK, Goblin.ATTACK_RATE);
+        super(Goblin.NAME, Goblin.HEALTH, Goblin.SPEED, Goblin.DROP, Goblin.RANGE_ATTACK, Goblin.DAMAGE_ATTACK,
+                Goblin.ATTACK_RATE);
     }
 
-    public Goblin copy() {
+    @Override
+    public final Goblin copy() {
         final Goblin enemy = new Goblin();
         if (this.getPosition().isPresent()) {
             enemy.setPosition(this.getPosition().get().getX(), this.getPosition().get().getY());

@@ -38,7 +38,9 @@ public interface Input {
          * The default selection of the player.
          */
         MISS,
-
+        /**
+         * The player has selected the restart button.
+         */
         RESTART
     }
 

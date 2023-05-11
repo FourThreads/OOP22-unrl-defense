@@ -4,8 +4,6 @@ import it.unibo.unrldef.common.Pair;
 import it.unibo.unrldef.model.api.Enemy;
 import it.unibo.unrldef.model.api.Hero;
 import it.unibo.unrldef.model.api.Path;
-import it.unibo.unrldef.model.api.World;
-import it.unibo.unrldef.model.api.Player;
 
 /**
  * Implementation of an Enemy in the game Unreal Defense.
@@ -33,6 +31,12 @@ public abstract class EnemyImpl extends EntityImpl implements Enemy {
      *                       the speed of the enemy
      * @param dropAmount
      *                       the amount of money that the enemy drops when it dies
+     * @param rangeAttack
+     *                       the range of the attack of the enemy
+     * @param damageAttack
+     *                       the damage of the attack of the enemy
+     * @param attackRate
+     *                       the rate of the attack of the enemy
      */
     public EnemyImpl(final String name, final double startingHealth, final double speed, final double dropAmount,
             final double rangeAttack, final double damageAttack, final long attackRate) {
@@ -191,8 +195,7 @@ public abstract class EnemyImpl extends EntityImpl implements Enemy {
     }
 
     @Override
-    protected void attack() {
-        //System.out.println("Enemy attack");
+    protected final void attack() {
         this.getParentWorld().getSceneEntities().stream().filter(e -> e instanceof Hero).forEach(e -> {
             ((Hero) e).reduceHealth(this.damageAttack);
         });
