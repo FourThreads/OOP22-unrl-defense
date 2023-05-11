@@ -87,6 +87,9 @@ public final class SpriteLoader {
      */
     public static final String MISSING_ASSET = "missingAsset";
 
+    /**
+     * the name of the sprite that represents the cesare.
+     */
     public static final String CESARE = "cesare";
 
     private final Map<String, Sprite> sprites = new HashMap<>();

@@ -24,10 +24,6 @@ public abstract class EntityImpl implements Entity {
     private long timeSinceLastAction;
     private boolean isAttacking;
 
-    // ==============================================================
-    // ====================== DEFENSE ENTITY METHODS ================
-    // ==============================================================
-
     /**
      * Crates a new defensive entinty.
      * 
@@ -116,27 +112,6 @@ public abstract class EntityImpl implements Entity {
         return this.isAttacking;
     }
 
-
-    // =============================================================
-    // ====================== ENTITY METHODS =======================
-    // =============================================================
-
-
-    /**
-     * Create a new entity with a name.
-     * @param name the name of the entity
-     *
-    public EntityImpl(final String name) {
-        this.position = Optional.empty();
-        this.name = name;
-        
-        this.radius = 0;
-        this.damage = 0;
-        this.attackRate = 0;
-    }
-    */
-
-
     /**
      * Set the parent world of the entity.
      * @param parentWorld the parent world to be set to the entity
@@ -163,8 +138,6 @@ public abstract class EntityImpl implements Entity {
     public String getName() {
         return this.name;
     }
-
-
 
     /**
      * Get the parent world of the entity.

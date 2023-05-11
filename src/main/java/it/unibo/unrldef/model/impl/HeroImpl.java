@@ -8,6 +8,11 @@ import it.unibo.unrldef.common.Position;
 import it.unibo.unrldef.model.api.Enemy;
 import it.unibo.unrldef.model.api.Hero;
 
+/**
+ * A hero that can be placed in a world.
+ * 
+ * @author tommaso.ceredi@studio.unibo.it
+ */
 public abstract class HeroImpl extends EntityImpl implements Hero {
 
     private boolean active;
@@ -31,7 +36,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     @Override
     public void updateState(long time) {
         this.incrementTime(time);
-        if (this.health <= 0) {
+        if (getHealth() <= 0) {
             this.deactivate();
         } else if (this.isActive()) {
             final List<Enemy> enemiesInRange = this.getParentWorld().sorroundingEnemies(this.startingPosition,
@@ -61,9 +66,6 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     }
 
     @Override
-    public abstract Hero copy();
-
-    @Override
     protected void attack() {
         final List<Enemy> enemiesInRange = this.getParentWorld().sorroundingEnemies(this.getPosition().get(),
                 this.getRadius());
@@ -82,10 +84,6 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     @Override
     public final boolean isActive() {
         return this.active;
-    }
-
-    public double getSpeed() {
-        return this.speed;
     }
 
     @Override
@@ -113,6 +111,11 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
         this.health = this.startingHealth;
     }
 
+    /**
+     * Additional attack of the hero.
+     * 
+     * @param target target of the attack
+     */
     protected abstract void additionAttack(Enemy target);
 
     public final double getHealth() {

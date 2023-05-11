@@ -40,6 +40,9 @@ public interface Player {
      */
     Set<Spell> getSpells();
 
+    /**
+     * @return a set containing all the heros that the player uses
+     */
     Set<Hero> getHeros();
 
     /**
@@ -49,6 +52,11 @@ public interface Player {
      */
     void setSpells(Set<Spell> spells);
 
+    /**
+     * Sets the heros that the player can use in game.
+     * 
+     * @param hero a set of heros
+     */
     void setHeros(Set<Hero> hero);
 
     /**
@@ -69,6 +77,13 @@ public interface Player {
      */
     boolean throwSpell(Position pos, String name);
 
+    /**
+     * Spawns a new hero on the world map.
+     * 
+     * @param pos  place position
+     * @param name hero name
+     * @return true if the hero has been spawned, false otherwise
+     */
     boolean spawnHero(Position pos, String name);
 
     /**
@@ -78,5 +93,10 @@ public interface Player {
      */
     void updateSpellState(long elapsed);
 
+    /**
+     * Updates the state of the heros.
+     * 
+     * @param elapsed time passed since last update
+     */
     void updateHeroState(long elapsed);
 }
