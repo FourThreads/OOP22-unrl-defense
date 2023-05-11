@@ -4,6 +4,7 @@ package it.unibo.unrldef.model.impl;
  * An enemy in the game Unreal Defense.
  * 
  * @author danilo.maglia@studio.unibo.it
+ * @author tommaso.ceredi@studio.unibo.it
  */
 public class Goblin extends EnemyImpl {
     /**

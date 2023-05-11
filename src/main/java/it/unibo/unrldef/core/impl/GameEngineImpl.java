@@ -17,6 +17,7 @@ import it.unibo.unrldef.model.api.World.GameState;
  * This class modules the engine that updates the game.
  * 
  * @author tommaso.severi2@studio.unibo.it
+ * @author tommaso.ceredi@studio.unibo.it
  */
 public final class GameEngineImpl implements GameEngine {
 

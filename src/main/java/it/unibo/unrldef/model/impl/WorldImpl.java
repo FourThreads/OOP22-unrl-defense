@@ -19,7 +19,6 @@ import it.unibo.unrldef.common.Position;
 import it.unibo.unrldef.model.api.Bank;
 import it.unibo.unrldef.model.api.Enemy;
 import it.unibo.unrldef.model.api.Entity;
-import it.unibo.unrldef.model.api.Hero;
 import it.unibo.unrldef.model.api.Horde;
 import it.unibo.unrldef.model.api.Integrity;
 import it.unibo.unrldef.model.api.Path;

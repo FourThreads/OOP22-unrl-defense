@@ -7,6 +7,7 @@ import it.unibo.unrldef.model.api.World.GameState;
  * 
  * @author danilo.maglia@studio.unibo.it
  * @author tommaso.severi2@studio.unibo.it
+ * @author tommaso.ceredi@studio.unibo.it
  */
 public interface View {
     /**

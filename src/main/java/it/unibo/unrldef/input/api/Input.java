@@ -8,6 +8,7 @@ import it.unibo.unrldef.common.Position;
  * Interface of an input.
  * 
  * @author tommaso.severi2@studio.unibo.it
+ * @author tommaso.ceredi@studio.unibo.it
  */
 public interface Input {
     /**

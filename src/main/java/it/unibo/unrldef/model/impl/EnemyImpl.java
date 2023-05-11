@@ -9,6 +9,7 @@ import it.unibo.unrldef.model.api.Path;
  * Implementation of an Enemy in the game Unreal Defense.
  * 
  * @author danilo.maglia@studio.unibo.it
+ * @author tommaso.ceredi@studio.unibo.it
  */
 public abstract class EnemyImpl extends EntityImpl implements Enemy {
     private double health;
