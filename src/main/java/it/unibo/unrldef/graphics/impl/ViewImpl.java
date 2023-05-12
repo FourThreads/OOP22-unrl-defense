@@ -49,7 +49,7 @@ public final class ViewImpl implements View {
     private final World world;
     private final MenuPanel menuPanel;
     private final InputHandler inputHandler;
-    private boolean isEnded = false;
+    private boolean isEnded;
 
     /**
      * Builds the view of the game starting with the menu.

@@ -395,7 +395,6 @@ public final class GamePanel extends JPanel {
     }
 
     private void renderEntity(final Graphics2D graphic, final Entity entity) {
-        //System.out.println("Rendering entity: " + entity);
         if (entity instanceof Enemy) {
             this.renderEnemy(graphic, entity);
         } else if (entity instanceof Spell) {

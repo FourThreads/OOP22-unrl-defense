@@ -217,7 +217,6 @@ public final class WorldImpl implements World {
 
     @Override
     public Boolean tryBuildTower(final Position pos, final String towerName) {
-        System.out.println("Available towers: " + this.availableTowers);
         if (this.availablePositions.contains(pos)) {
             final Tower newTower = this.availableTowers.get(towerName).copy();
             if (this.bank.trySpend(newTower.getCost())) {
@@ -225,7 +224,6 @@ public final class WorldImpl implements World {
                 this.placedTowers.add(newTower);
                 newTower.setParentWorld(this);
                 newTower.setPosition(pos.getX(), pos.getY());
-                System.out.println("Tower list: " + this.placedTowers);
                 return true;
             }
         }

@@ -20,10 +20,10 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     private final double startingHealth;
     private Optional<Enemy> target = Optional.empty();
     private final double movementeRange;
-    private Position startingPosition = null;
-    private double speed;
+    private Position startingPosition;
+    private final double speed;
     private long lastAction;
-    private final int timeToDespawn = 10000;
+    private static final int TIME_TO_DESPAWN = 10_000;
 
     /**
      * Constructor of HeroImpl.
@@ -51,8 +51,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
         if (getHealth() <= 0) {
             this.deactivate();
         } else if (this.isActive()) {
-            final List<Enemy> enemiesInRange = this.getParentWorld().sorroundingEnemies(this.startingPosition,
-                    this.movementeRange);
+            final List<Enemy> enemiesInRange = getEnemiesInRange(this.startingPosition, this.movementeRange);
             if (!enemiesInRange.isEmpty()) {
                 final List<Enemy> enemiesToAttack = this.getParentWorld().sorroundingEnemies(this.getPosition().get(),
                         this.getRadius());
@@ -66,10 +65,14 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
             } else {
                 this.target = Optional.empty();
             }
-            if (lastAction < System.currentTimeMillis() - timeToDespawn) {
+            if (lastAction < System.currentTimeMillis() - TIME_TO_DESPAWN) {
                 this.deactivate();
             }
         }
+    }
+
+    private List<Enemy> getEnemiesInRange(final Position pos, final double range) {
+        return this.getParentWorld().sorroundingEnemies(pos, range);
     }
 
     @Override
@@ -79,8 +82,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
 
     @Override
     protected final void attack() {
-        final List<Enemy> enemiesInRange = this.getParentWorld().sorroundingEnemies(this.getPosition().get(),
-                this.getRadius());
+        final List<Enemy> enemiesInRange = this.getEnemiesInRange(this.getPosition().get(), this.getRadius());
         if (!enemiesInRange.isEmpty()) {
             if (this.target.isEmpty() || !enemiesInRange.contains(this.target.get())) {
                 this.target = Optional.of(enemiesInRange.get(0));
@@ -130,9 +132,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
      */
     protected abstract void additionAttack(Enemy target);
 
-    /**
-     * @return the health of the hero.
-     */
+    @Override
     public final double getHealth() {
         return this.health;
     }
@@ -155,8 +155,8 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
         final double maxStep = this.speed * (time / 1000.0);
         final double stepSize = Math.min(distance, maxStep);
 
-        double nx = x + (stepSize / distance) * dx;
-        double ny = y + (stepSize / distance) * dy;
+        final double nx = x + (stepSize / distance) * dx;
+        final double ny = y + (stepSize / distance) * dy;
 
         this.setPosition(nx, ny);
 

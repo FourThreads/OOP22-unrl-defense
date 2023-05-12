@@ -144,7 +144,6 @@ public abstract class EnemyImpl extends EntityImpl implements Enemy {
                     final double distance = Math
                             .sqrt(Math.pow(this.getPosition().get().getX() - e.getPosition().get().getX(), 2)
                                     + Math.pow(this.getPosition().get().getY() - e.getPosition().get().getY(), 2));
-                    // System.out.println("distance: " + distance);
                     if (distance <= this.rangeAttack) {
                         this.checkAttack();
                     }

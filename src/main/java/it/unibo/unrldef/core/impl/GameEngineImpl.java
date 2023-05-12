@@ -165,7 +165,6 @@ public final class GameEngineImpl implements GameEngine {
                     break;
                 case EXIT_GAME:
                     this.exitGame();
-                    System.exit(0);
                     break;
                 case RESTART:
                     this.restartGame();
@@ -228,7 +227,6 @@ public final class GameEngineImpl implements GameEngine {
     private void restartGame() {
         this.exitGame();
         this.status = LoopState.MENU;
-
         UnrealDefense.startLevelOne();
     }
 }

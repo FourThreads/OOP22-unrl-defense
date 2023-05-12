@@ -63,7 +63,12 @@ class SpellImplTest {
         // so that the enemy dies only after all the damage possible is dealt by the spell
         final double targetStartingHealth = TEST_DAMAGE 
                 + (TEST_LINGERING_DAMAGE * (this.testLingeringEffectTime / this.testLingeringEffectFrequency));
-        final Enemy testTarget = new Goblin();
+        final Enemy testTarget = new EnemyImpl("orc", targetStartingHealth, 0, 1, 1, 1, 1) {
+            @Override
+            public EnemyImpl copy() {
+                return null;
+            }
+        };
         this.testWorld.spawnEnemy(testTarget, testPosition);
         // places the spell on the enemy
         assert this.testSpell.ifPossibleActivate(testTarget.getPosition().get());

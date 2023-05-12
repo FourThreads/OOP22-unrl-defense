@@ -21,7 +21,12 @@ class EnemyImplTest {
                 .addPathSegment(Path.Direction.DOWN, pathMostBottom)
                 .addPathSegment(Path.Direction.RIGHT, pathMostRight)
                 .addPathSegment(Path.Direction.END, 0).build();
-        final Enemy enemy = new EnemyImpl("orc", 100, enemyInitialSpeed, 1);
+        final Enemy enemy = new EnemyImpl("orc", 100, enemyInitialSpeed, 0, 0, 0, 0) {
+            @Override
+            public EnemyImpl copy() {
+                return null;
+            }
+        };
         enemy.setParentWorld(testWorld);
         enemy.setPosition(0, 0);
         enemy.updateState(second);
