@@ -225,7 +225,7 @@ public final class GameEngineImpl implements GameEngine {
      * Restarts the game.
      */
     private void restartGame() {
-        this.exitGame();
+        this.gameView.restartGame();
         this.status = LoopState.MENU;
         UnrealDefense.startLevelOne();
     }

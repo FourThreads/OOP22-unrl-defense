@@ -158,7 +158,7 @@ public final class ViewImpl implements View {
 
     @Override
     public void renderEndGame(final GameState state) {
-        final JButton menu = new JButton("Restart");
+        
         final Graphics g = this.frame.getGraphics();
         // the font is setted to be 1/8 of the width of the frame just
         // as a reference so that it is always readable
@@ -180,18 +180,13 @@ public final class ViewImpl implements View {
         // the width of the frame as a reference so that it is always centered
         g.drawString(displayState, this.frame.getWidth() / 10, this.frame.getHeight() / 2);
         g.setColor(Color.GREEN);
-        menu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                inputHandler.addInput(new InputImpl(InputType.RESTART));
-            }
-        });
+        
         if (!this.isEnded) {
             this.buttonPanel.removeAllButtons();
-            menu.setSize(new Dimension(DefenseButtonPanel.WIDTH, DefenseButtonPanel.HEIGHT));
             this.buttonPanel.add(this.createButton("exit.png", new InputImpl(InputType.EXIT_GAME)));
             this.buttonPanel.add(this.createButton("restart.png", new InputImpl(InputType.RESTART)));
             this.frame.revalidate();
+            this.buttonPanel.repaint();
             this.isEnded = true;
         }
     }
@@ -199,6 +194,8 @@ public final class ViewImpl implements View {
     @Override
     public void exitGame() {
         this.frame.dispose();
+        System.out.println("Game closed");
+        System.exit(0);
     }
 
     @Override

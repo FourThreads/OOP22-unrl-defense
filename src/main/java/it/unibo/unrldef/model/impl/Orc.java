@@ -14,7 +14,8 @@ public class Orc extends EnemyImpl {
     /**
      * The speed of the enemy.
      */
-    public static final double SPEED = 3.0;
+    // ! TO FIX
+    public static final double SPEED = 300.0;
     /**
      * The health of the enemy.
      */
