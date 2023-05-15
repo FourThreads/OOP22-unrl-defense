@@ -1,6 +1,6 @@
 {
     "worldName": "River Castle",
-    "castleHearts": 1,
+    "castleHearts": 5,
     "startingMoney": 250,
     "startingPosition": {
         "x": 60,

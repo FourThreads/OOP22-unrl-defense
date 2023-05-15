@@ -26,12 +26,13 @@ public final class Cesare extends HeroImpl {
      */
     public static final double MOVEMENT_RANGE = 10;
     private static final double SPEED = 5.0;
+    private static final long RECHARGE_TIME = 6000;
 
     /**
      * Constructor of Cesare.
      */
     public Cesare() {
-        super(NAME, RADIUS, DAMAGE, ATTACK_RATE, HEALTH, MOVEMENT_RANGE, SPEED);
+        super(NAME, RADIUS, DAMAGE, ATTACK_RATE, HEALTH, MOVEMENT_RANGE, SPEED, RECHARGE_TIME);
     }
 
     @Override

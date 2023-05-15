@@ -24,6 +24,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
     private final double speed;
     private long lastAction;
     private static final int TIME_TO_DESPAWN = 10_000;
+    private final long rechargeRate;
 
     /**
      * Constructor of HeroImpl.
@@ -37,12 +38,13 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
      * @param speed         speed of the hero
      */
     public HeroImpl(final String name, final double radius, final double damage, final long attackRate,
-            final double health, final double movementRange, final double speed) {
+            final double health, final double movementRange, final double speed, final long rechargeRate) {
         super(name, radius, damage, attackRate);
         this.health = Objects.requireNonNull(health);
         this.startingHealth = Objects.requireNonNull(health);
         this.movementeRange = Objects.requireNonNull(movementRange);
         this.speed = speed;
+        this.rechargeRate = rechargeRate;
     }
 
     @Override
@@ -71,13 +73,17 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
         }
     }
 
+    private long getRechargeRate() {
+        return this.rechargeRate;
+    }
+
     private List<Enemy> getEnemiesInRange(final Position pos, final double range) {
         return this.getParentWorld().sorroundingEnemies(pos, range);
     }
 
     @Override
     public final boolean isReady() {
-        return this.getTimeSinceLastAction() >= this.getAttackRate() && !this.isActive();
+        return this.getTimeSinceLastAction() >= this.getRechargeRate() && !this.isActive();
     }
 
     @Override

@@ -59,7 +59,7 @@ public final class ViewImpl implements View {
      * @param inputHandler the input handler of the game
      */
     @SuppressFBWarnings(value = "EI_EXPOSE_REP2", 
-            justification = "Input and player are meant to be the same as the other objects")
+        justification = "Input and player are meant to be the same as the other objects")
     public ViewImpl(final Player player, final World world, final InputHandler inputHandler) {
         this.player = player;
         this.world = world;
@@ -81,7 +81,7 @@ public final class ViewImpl implements View {
     public void initGame() {
         this.frame.getContentPane().remove(this.menuPanel);
 
-        //this.buttonPanel.add(this.createExitButton());
+        // this.buttonPanel.add(this.createExitButton());
         this.buttonPanel.add(this.addPlayerName());
         this.frame.getContentPane().add(gamePanel, BorderLayout.CENTER);
         this.frame.getContentPane().add(this.buttonPanel, BorderLayout.EAST);
@@ -111,8 +111,8 @@ public final class ViewImpl implements View {
      */
     private JLabel addPlayerName() {
         final JLabel playerName = new JLabel();
-        final String name = this.player.getName().length() > MAX_NAME_LENGTH 
-                ? this.player.getName().substring(0, MAX_NAME_LENGTH) + "..." 
+        final String name = this.player.getName().length() > MAX_NAME_LENGTH
+                ? this.player.getName().substring(0, MAX_NAME_LENGTH) + "..."
                 : this.player.getName();
         playerName.setText("Player: " + name);
         return playerName;
@@ -121,8 +121,8 @@ public final class ViewImpl implements View {
     /**
      * Creates a new button to exit the game.
      * 
-     * @param input the input
-     * @param fileName  the name of the file
+     * @param input    the input
+     * @param fileName the name of the file
      * @return the button to exit the game
      */
     private JButton createButton(final String fileName, final Input input) {
@@ -158,7 +158,7 @@ public final class ViewImpl implements View {
 
     @Override
     public void renderEndGame(final GameState state) {
-        
+
         final Graphics g = this.frame.getGraphics();
         // the font is setted to be 1/8 of the width of the frame just
         // as a reference so that it is always readable
@@ -180,7 +180,7 @@ public final class ViewImpl implements View {
         // the width of the frame as a reference so that it is always centered
         g.drawString(displayState, this.frame.getWidth() / 10, this.frame.getHeight() / 2);
         g.setColor(Color.GREEN);
-        
+
         if (!this.isEnded) {
             this.buttonPanel.removeAllButtons();
             this.buttonPanel.add(this.createButton("exit.png", new InputImpl(InputType.EXIT_GAME)));
@@ -194,7 +194,6 @@ public final class ViewImpl implements View {
     @Override
     public void exitGame() {
         this.frame.dispose();
-        System.out.println("Game closed");
         System.exit(0);
     }
 
