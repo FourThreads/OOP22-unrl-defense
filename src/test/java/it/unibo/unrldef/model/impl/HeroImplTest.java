@@ -59,7 +59,7 @@ class HeroImplTest {
             }
 
             @Override
-            protected void additionAttack(Enemy target) {
+            protected void additionAttack(final Enemy target) {
                 // nothing to do
             }
         };
@@ -71,7 +71,7 @@ class HeroImplTest {
      */
     @Test
     void testStatus() {
-        
+
         final Enemy testTarget = new EnemyImpl("orc", TARGET_STARTHEALTH, 0, 1, TARGET_RADIUS, TARGET_DAMAGE,
                 TARGET_ATTACKRATE) {
             @Override

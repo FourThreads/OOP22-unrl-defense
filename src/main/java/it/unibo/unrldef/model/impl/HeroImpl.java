@@ -36,6 +36,7 @@ public abstract class HeroImpl extends EntityImpl implements Hero {
      * @param health        health of the hero
      * @param movementRange movement range of the hero
      * @param speed         speed of the hero
+     * @param rechargeRate  recharge rate of the hero
      */
     public HeroImpl(final String name, final double radius, final double damage, final long attackRate,
             final double health, final double movementRange, final double speed, final long rechargeRate) {
